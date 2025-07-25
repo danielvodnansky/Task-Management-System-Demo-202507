@@ -6,11 +6,18 @@
     >
       No tasks found.
     </div>
-    <TasksCard
-      v-for="task in tasks"
-      :key="task.uuid"
-      :task="task"
-    />
+    <!-- Use TransitionGroup for list animations -->
+    <TransitionGroup
+      name="list"
+      tag="div" 
+    >
+      <TasksCard
+        v-for="task in tasks"
+        :key="task.uuid"
+        :task="task"
+        class="mt-4"
+      />
+    </TransitionGroup>
   </div>
 </template>
 

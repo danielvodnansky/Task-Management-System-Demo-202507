@@ -23,4 +23,7 @@ export default defineNuxtConfig({
   piniaPersistedstate: {
     storage: 'localStorage',
   },
+  css: [
+    '~/assets/css/transitions.css',
+  ],
 })

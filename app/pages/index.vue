@@ -25,23 +25,15 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { onMounted } from 'vue' // Ensure onMounted is imported
 import { useTaskStore } from '~/store/tasks'
 import { useTaskFormModal } from '~/composables/useTaskFormModal'
 
-// Access the task store and the task form modal composable
 const taskStore = useTaskStore()
 const { isModalOpen, editingTask, closeTaskModal, handleTaskFormSubmit } = useTaskFormModal()
 
-// On component mount, ensure the project filter is cleared for the "All Tasks" page
 onMounted(() => {
   taskStore.setProjectId(undefined)
 })
 
-// No need for local computed `filteredAndSortedTasks` or event handlers for task actions
-// as `TasksList` and `TasksCard` now directly interact with the store/composable.
 </script>
-
-<style scoped>
-/* Scoped styles for the page, if any */
-</style>
