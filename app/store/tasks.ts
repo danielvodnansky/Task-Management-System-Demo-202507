@@ -1,7 +1,7 @@
 // store/tasks.ts
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
-import type { Task, TaskPriority } from '~/types'
+import type { Task } from '~/types'
 import type { TaskFilterStatus, TaskFilterPriority, TaskSortBy } from '~/types/TaskFilterOptions'
 
 export const useTaskStore = defineStore('tasks', {
