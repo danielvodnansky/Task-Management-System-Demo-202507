@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxt/test-utils/module',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
   typescript: {
     typeCheck: true,
@@ -18,5 +19,8 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
+  },
+  piniaPersistedstate: {
+    storage: 'localStorage',
   },
 })
