@@ -1,1 +1,8 @@
-export type TaskPriority = 'low' | 'medium' | 'high'
+import { z } from 'zod'
+
+export const TaskPrioritySchema = z.enum([
+  'low',
+  'medium',
+  'high',
+])
+export type TaskPriority = z.infer<typeof TaskPrioritySchema>

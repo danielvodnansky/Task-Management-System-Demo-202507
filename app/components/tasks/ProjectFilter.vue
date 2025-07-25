@@ -53,14 +53,14 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted, type PropType } from 'vue'
-import { useProjectStore } from '~/store/projects' // Import the project store
-import type { Project } from '~/types/Project' // Import the Project type
+import { useProjectStore } from '~/store/projects'
+import type { Project } from '~/types/Project'
 
 const projectStore = useProjectStore()
 const projects = computed(() => projectStore.allProjects) // Get all projects from the store
 
 const searchTerm = ref<string>('') // Reactive state for the search input
-const selectedProjectId = ref<number | undefined>(undefined) // Reactive state for the selected project ID
+const selectedProjectId = ref<string | undefined>(undefined) // Reactive state for the selected project ID
 const isDropdownOpen = ref<boolean>(false) // Controls the visibility of the dropdown
 
 const emit = defineEmits(['update:projectId']) // Emit event when project ID changes
@@ -68,7 +68,7 @@ const emit = defineEmits(['update:projectId']) // Emit event when project ID cha
 // Define props for initial value (optional, but good for reusability)
 const props = defineProps({
   initialProjectId: {
-    type: Number as PropType<number | undefined>,
+    type: String as PropType<string | undefined>,
     default: undefined,
   },
 })

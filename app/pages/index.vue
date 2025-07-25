@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-4">
     <!-- Using the consistently named TaskHeader component -->
-    <TasksTaskHeader />
+    <TasksHeader />
     <!-- Filter and sort components directly interact with the store, no events needed here -->
     <div class="flex flex-col md:flex-row gap-4 mb-6">
       <TasksFiltersAndSort />
@@ -13,12 +13,27 @@
       @edit-task="handleEditTask"
       @toggle-completion="handleToggleCompletion"
     />
+    <CommonModal
+      :is-open="isModalOpen"
+      @close="closeTaskModal"
+    >
+      <template #header>
+        {{ editingTask ? 'Edit Task' : 'Add New Task' }}
+      </template>
+      <TasksForm
+        :task="editingTask"
+        @cancel="closeTaskModal"
+        @submit="handleTaskFormSubmit"
+      />
+    </CommonModal>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useTaskStore } from '~/store/tasks'
+
+const { isModalOpen, editingTask, closeTaskModal, handleTaskFormSubmit } = useTaskFormModal()
 
 // Access the task store
 const taskStore = useTaskStore()
@@ -45,6 +60,10 @@ const handleDeleteTask = (uuid: string) => {
     taskStore.deleteTask(uuid)
   }
 }
+
+onMounted(() => {
+  taskStore.setProjectId(undefined)
+})
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 // store/tasks.ts
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
-import type { Task } from '~/types'
+import type { Task } from '~/types/Task'
 import type { TaskFilterStatus, TaskFilterPriority, TaskSortBy } from '~/types/TaskFilterOptions'
 
 export const useTaskStore = defineStore('tasks', {
@@ -13,7 +13,7 @@ export const useTaskStore = defineStore('tasks', {
         description: 'Milk, eggs, bread, fruits',
         dueDate: new Date(Date.now() + 86400000 * 2).toISOString(), // 2 days from now
         priority: 'high',
-        projectId: 1,
+        projectId: '1',
         completed: false,
       },
       {
@@ -22,7 +22,7 @@ export const useTaskStore = defineStore('tasks', {
         description: 'Complete the Q3 financial report',
         dueDate: new Date(Date.now() + 86400000 * 5).toISOString(), // 5 days from now
         priority: 'medium',
-        projectId: 1,
+        projectId: '1',
         completed: false,
       },
       {
@@ -30,7 +30,7 @@ export const useTaskStore = defineStore('tasks', {
         title: 'Call mom',
         dueDate: new Date(Date.now() + 86400000).toISOString(), // 1 day from now
         priority: 'low',
-        projectId: 2,
+        projectId: '2',
         completed: true,
       },
       {
@@ -39,7 +39,7 @@ export const useTaskStore = defineStore('tasks', {
         description: 'Read documentation and build a small app',
         dueDate: new Date(Date.now() + 86400000 * 10).toISOString(), // 10 days from now
         priority: 'high',
-        projectId: 3,
+        projectId: '3',
         completed: false,
       },
     ] as Task[],
@@ -47,14 +47,14 @@ export const useTaskStore = defineStore('tasks', {
     filterStatus: 'all' as TaskFilterStatus,
     filterPriority: 'all' as TaskFilterPriority,
     sortBy: 'dueDate' as TaskSortBy,
-    selectedProjectId: undefined as number | undefined, // New state for project filter
+    selectedProjectId: undefined as string | undefined, // New state for project filter
   }),
 
   getters: {
     allTasks: state => state.tasks,
     activeTasks: state => state.tasks.filter((task: Task) => !task.completed),
     completedTasks: state => state.tasks.filter((task: Task) => task.completed),
-    getTasksByProjectId: state => (projectId: number) =>
+    getTasksByProjectId: state => (projectId: string) =>
       state.tasks.filter((task: Task) => task.projectId === projectId),
 
     // This getter now uses the store's internal filter and sort states
@@ -125,7 +125,7 @@ export const useTaskStore = defineStore('tasks', {
     setSortBy (sortBy: TaskSortBy) {
       this.sortBy = sortBy
     },
-    setProjectId (projectId: number | undefined) {
+    setProjectId (projectId: string | undefined) {
       this.selectedProjectId = projectId
     },
     // Action to clear all filters

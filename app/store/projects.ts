@@ -4,15 +4,15 @@ import type { Project } from '~/types/Project'
 export const useProjectStore = defineStore('projects', {
   state: () => ({
     projects: [
-      { id: 1, name: 'Work Tasks' },
-      { id: 2, name: 'Personal Errands' },
-      { id: 3, name: 'Study Goals' },
+      { id: '1', name: 'Work Tasks' },
+      { id: '2', name: 'Personal Errands' },
+      { id: '3', name: 'Study Goals' },
     ] as Project[], // initial data
   }),
 
   getters: {
-    allProjects: state => state.projects,
-    getProjectById: state => (id: number) => state.projects.find((project: Project) => project.id === id),
+    allProjects: (state): Project[] => state.projects,
+    getProjectById: state => (id: string): Project | undefined => state.projects.find((project: Project) => project.id === id),
   },
 
   actions: {
@@ -25,7 +25,7 @@ export const useProjectStore = defineStore('projects', {
         this.projects[index] = updatedProject
       }
     },
-    deleteProject (id: number) {
+    deleteProject (id: string) {
       this.projects = this.projects.filter((project: Project) => project.id !== id)
     },
   },

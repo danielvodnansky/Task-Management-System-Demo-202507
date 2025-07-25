@@ -1,4 +1,4 @@
-import { TaskPriority } from './TaskPriority'
+import type { TaskPriority } from './TaskPriority'
 
 export interface Task {
   uuid: string;
@@ -6,6 +6,6 @@ export interface Task {
   description?: string;
   dueDate: string;
   priority: TaskPriority;
-  projectId: number;
+  projectId: string;
   completed: boolean;
 }
