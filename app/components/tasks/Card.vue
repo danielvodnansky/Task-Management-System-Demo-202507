@@ -46,13 +46,15 @@
     <div class="flex items-center space-x-2 ml-4">
       <button
         class="p-2 rounded-full text-blue-600 hover:bg-blue-100 transition-colors duration-200"
+        :disabled="task.completed"
         title="Edit Task"
-        @click="emit('edit-task', task.uuid)"
+        @click="openEditTaskModal(task.uuid)"
       >
         <IconsBaseIcon name="edit" />
       </button>
       <button
         class="p-2 rounded-full text-red-600 hover:bg-red-100 transition-colors duration-200"
+        :disabled="task.completed"
         title="Delete Task"
         @click="confirmDeleteTask(task.uuid)"
       >
@@ -64,9 +66,13 @@
 
 <script lang="ts" setup>
 import { computed, type PropType } from 'vue'
-import type { Task } from '~/types/Task'
-import { useProjectStore } from '~/store/projects'
-import { useTaskStore } from '~/store/tasks' // Import task store
+import type { Task } from '~/app/types/Task'
+import { useProjectStore } from '~/app/store/projects'
+import { useTaskStore } from '~/app/store/tasks'
+import { useTaskFormModal } from '~/app/composables/useTaskFormModal'
+
+useTaskFormModal()
+const { openEditTaskModal } = useTaskFormModal()
 
 const props = defineProps({
   task: {
@@ -74,8 +80,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-const emit = defineEmits(['edit-task']) // Only emit 'edit-task' now
 
 const projectStore = useProjectStore()
 const taskStore = useTaskStore() // Access the task store
@@ -101,7 +105,6 @@ const priorityClass = computed(() => {
 })
 
 const confirmDeleteTask = (uuid: string) => {
-  // Replace with a custom modal later
   if (confirm('Are you sure you want to delete this task?')) {
     taskStore.deleteTask(uuid)
   }
