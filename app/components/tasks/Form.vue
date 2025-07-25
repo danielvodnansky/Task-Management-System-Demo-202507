@@ -92,7 +92,7 @@
       >Project</label>
       <select
         id="projectId"
-        v-model.number="formData.projectId"
+        v-model="formData.projectId"
         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
       >
         <option
@@ -138,38 +138,43 @@
 <script lang="ts" setup>
 import { reactive, computed, watch, type PropType } from 'vue'
 import { z } from 'zod'
-import { format } from 'date-fns' // Import date-fns for date formatting
+import { format } from 'date-fns'
 import { useProjectStore } from '~/store/projects'
 import type { Task } from '~/types/Task'
 import { TaskFormSchema, type TaskForm } from '~/types/TaskForm'
 
 const props = defineProps({
-  // Optional task prop for editing existing tasks
   task: {
     type: Object as PropType<Task | null>,
     default: null,
   },
 })
+
 const emit = defineEmits([
   'submit',
   'cancel',
 ])
+
 const projectStore = useProjectStore()
+
 // Reactive form data, initialized from props.task or with defaults
 const formData = reactive<TaskForm>({
   uuid: props.task?.uuid,
   title: props.task?.title || '',
   description: props.task?.description || '',
-  // Format dueDate to 'YYYY-MM-DD' for input type="date"
   dueDate: props.task?.dueDate ? format(new Date(props.task.dueDate), 'yyyy-MM-dd') : '',
   priority: props.task?.priority || 'medium',
-  projectId: props.task?.projectId || (projectStore.allProjects.length > 0 ? projectStore.allProjects?.[0]?.id : '') + '',
+  // Ensure projectId is initialized as a string and defaults to the first project ID if available
+  projectId: props.task?.projectId || (projectStore.allProjects.length > 0 ? projectStore.allProjects[0].id : ''),
   completed: props.task?.completed || false,
 })
+
 // Reactive object to hold validation errors
 const errors = reactive<Record<keyof TaskForm, string>>({} as Record<keyof TaskForm, string>)
+
 // Determine if the form is in editing mode
 const isEditing = computed(() => !!props.task)
+
 // Watch for changes in the task prop to reset form data when switching tasks or adding new
 watch(() => props.task, (newTask) => {
   formData.uuid = newTask?.uuid
@@ -177,7 +182,7 @@ watch(() => props.task, (newTask) => {
   formData.description = newTask?.description || ''
   formData.dueDate = newTask?.dueDate ? format(new Date(newTask.dueDate), 'yyyy-MM-dd') : ''
   formData.priority = newTask?.priority || 'medium'
-  formData.projectId = newTask?.projectId || (projectStore.allProjects.length > 0 ? projectStore.allProjects?.[0]?.id : '') + '',
+  formData.projectId = newTask?.projectId || (projectStore.allProjects.length > 0 ? projectStore.allProjects[0].id : '')
   formData.completed = newTask?.completed || false
   // Clear errors on task change
   for (const key in errors) {
@@ -186,6 +191,7 @@ watch(() => props.task, (newTask) => {
     }
   }
 }, { deep: true })
+
 // Handle form submission
 const handleSubmit = () => {
   // Clear previous errors
@@ -194,6 +200,7 @@ const handleSubmit = () => {
       errors[key as keyof TaskForm] = ''
     }
   }
+
   try {
     // Validate form data using Zod
     const validatedData = TaskFormSchema.parse(formData)
@@ -201,7 +208,7 @@ const handleSubmit = () => {
   } catch (e) {
     if (e instanceof z.ZodError) {
       // Map Zod errors to reactive errors object
-      e.issues.forEach((issue: z.core.$ZodIssue) => {
+      e.issues.forEach((issue) => {
         if (issue.path.length > 0) {
           errors[issue.path[0] as keyof TaskForm] = issue.message
         }
@@ -212,3 +219,7 @@ const handleSubmit = () => {
   }
 }
 </script>
+
+<style scoped>
+/* Scoped styles if any */
+</style>

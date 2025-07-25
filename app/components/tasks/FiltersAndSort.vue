@@ -8,9 +8,8 @@
       >Status:</label>
       <select
         id="filterStatus"
+        v-model="taskStore.filterStatus"
         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-        :value="taskStore.filterStatus"
-        @change="(event: Event) => taskStore.setFilterStatus((event.target as HTMLSelectElement).value as TaskFilterStatus)"
       >
         <option value="all">
           All
@@ -32,21 +31,18 @@
       >Priority:</label>
       <select
         id="filterPriority"
+        v-model="taskStore.filterPriority"
         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-        :value="taskStore.filterPriority"
-        @change="(event: Event) => taskStore.setFilterPriority((event.target as HTMLSelectElement).value as TaskFilterPriority)"
       >
         <option value="all">
           All
         </option>
-        <option value="low">
-          Low
-        </option>
-        <option value="medium">
-          Medium
-        </option>
-        <option value="high">
-          High
+        <option
+          v-for="priorityOption in priorityOptions"
+          :key="priorityOption"
+          :value="priorityOption"
+        >
+          {{ priorityOption.charAt(0).toUpperCase() + priorityOption.slice(1) }}
         </option>
       </select>
     </div>
@@ -59,9 +55,8 @@
       >Sort By:</label>
       <select
         id="sortBy"
+        v-model="taskStore.sortBy"
         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-        :value="taskStore.sortBy"
-        @change="(event: Event) => taskStore.setSortBy((event.target as HTMLSelectElement).value as TaskSortBy)"
       >
         <option value="dueDate">
           Due Date
@@ -87,6 +82,10 @@
 <script lang="ts" setup>
 import { useTaskStore } from '~/store/tasks'
 import type { TaskFilterPriority, TaskFilterStatus, TaskSortBy } from '~/types/TaskFilterOptions'
+import { TaskPrioritySchema } from '~/types/TaskPriority'
 
 const taskStore = useTaskStore()
+
+const priorityOptions = Object.values(TaskPrioritySchema.enum)
+
 </script>

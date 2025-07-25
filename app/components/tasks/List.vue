@@ -10,7 +10,6 @@
       v-for="task in tasks"
       :key="task.uuid"
       :task="task"
-      @edit-task="handleEditTask"
     />
   </div>
 </template>
@@ -18,13 +17,16 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useTaskStore } from '~/store/tasks'
+import TasksCard from './Card.vue' // Ensure correct import path for TaskCard
 
 const taskStore = useTaskStore()
 
+// Directly get the filtered and sorted tasks from the store
 const tasks = computed(() => taskStore.getFilteredAndSortedTasks)
 
-const handleEditTask = (uuid: string) => {
-  console.log('Edit task:', uuid)
-  // TODO: Implement navigation to a task edit form/modal
-}
+// No emits needed here as TaskCard handles toggle/delete/edit directly with the store/composable
 </script>
+
+<style scoped>
+/* Scoped styles if any */
+</style>

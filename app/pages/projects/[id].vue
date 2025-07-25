@@ -19,7 +19,7 @@
       <!-- ProjectFilter is not needed here as the project is already defined by the route -->
     </div>
 
-    <TasksTaskList />
+    <TasksList />
 
     <!-- Task Add/Edit Modal (controlled by composable) -->
     <CommonModal
@@ -43,6 +43,7 @@ import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProjectStore } from '~/store/projects'
 import { useTaskStore } from '~/store/tasks'
+import { useTaskFormModal } from '~/composables/useTaskFormModal'
 
 const route = useRoute()
 const taskStore = useTaskStore()
@@ -69,9 +70,8 @@ const currentProjectName = computed(() => {
   return 'All Tasks' // Fallback for safety, though this page should always have a project ID
 })
 
-// The TasksTaskList component directly uses the store's getFilteredAndSortedTasks getter,
-// so there's no need for a local computed property here.
-// Task actions (toggle, delete, edit) are now handled directly within TaskCard.vue or the composable.
+// No need for local computed `filteredAndSortedTasks` or event handlers for task actions
+// as `TasksList` and `TasksCard` now directly interact with the store/composable.
 </script>
 
 <style scoped>

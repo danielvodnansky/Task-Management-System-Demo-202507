@@ -26,7 +26,7 @@
         <!-- Task Details: Due Date and Priority -->
         <div class="flex items-center text-sm text-gray-500 mt-2 space-x-3">
           <span class="flex items-center">
-            <IconBaseIcon name="calendar" />
+            <IconsBaseIcon name="calendar" />
             {{ formattedDueDate }}
           </span>
           <span
@@ -69,9 +69,7 @@ import { computed, type PropType } from 'vue'
 import { useProjectStore } from '~/store/projects'
 import { useTaskStore } from '~/store/tasks'
 import type { Task } from '~/types/Task'
-
-useTaskFormModal()
-const { openEditTaskModal } = useTaskFormModal()
+import { useTaskFormModal } from '~/composables/useTaskFormModal'
 
 const props = defineProps({
   task: {
@@ -81,7 +79,8 @@ const props = defineProps({
 })
 
 const projectStore = useProjectStore()
-const taskStore = useTaskStore() // Access the task store
+const taskStore = useTaskStore()
+const { openEditTaskModal } = useTaskFormModal() // Use the composable
 
 const project = computed(() => projectStore.getProjectById(props.task.projectId))
 

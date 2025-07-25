@@ -21,18 +21,15 @@
         Your Projects
       </li>
       <!-- Using MenuProjectNavLink for individual project links -->
-      <li class="mb-1">
+      <li
+        v-for="project in projectStore.allProjects"
+        :key="project.id"
+        class="mb-1"
+      >
         <MenuProjectNavLink
-          color="blue"
-          project-name="Project Alpha"
-          to="/projects/1"
-        />
-      </li>
-      <li class="mb-1">
-        <MenuProjectNavLink
-          color="green"
-          project-name="Project Beta"
-          to="/projects/2"
+          :color="getProjectColor(project.id)"
+          :project-name="project.name"
+          :to="`/projects/${project.id}`"
         />
       </li>
     </ul>
@@ -40,10 +37,15 @@
 </template>
 
 <script lang="ts" setup>
+import { useProjectStore } from '~/store/projects'
 import MenuNavLink from './MenuNavLink.vue'
 import MenuProjectNavLink from './MenuProjectNavLink.vue'
-</script>
 
-<style scoped>
-/* No specific styles needed here as styling is handled by child components */
-</style>
+const projectStore = useProjectStore()
+
+
+const getProjectColor = (projectId: string) => {
+  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+  return `#${randomColor}`;
+}
+</script>
