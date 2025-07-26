@@ -18,7 +18,7 @@
       <TasksFiltersAndSort />
       <!-- ProjectFilter is not needed here as the project is already defined by the route -->
     </div>
-    <TasksList :project-id="route.params.id" />
+    <TasksList :project-id="routeProjectId" />
 
     <!-- Task Add/Edit Modal (controlled by composable) -->
     <CommonModal
@@ -59,11 +59,15 @@ watchEffect(() => {
   }
 })
 
+const routeProjectId = computed(() => {
+  return Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
+})
+
 // Computed property to display the current project name in the header
 const currentProjectName = computed(() => {
-  const projectId = taskStore.selectedProjectId
-  if (projectId !== undefined) {
-    const project = projectStore.getProjectById(projectId)
+  const projectId = routeProjectId
+  if (projectId.value !== undefined) {
+    const project = projectStore.getProjectById(projectId.value)
     return project ? project.name : 'Unknown Project'
   }
   return 'All Tasks' // Fallback for safety, though this page should always have a project ID

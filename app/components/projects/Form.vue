@@ -4,12 +4,15 @@
       <label
         class="block text-sm font-medium text-gray-700"
         for="projectName"
-      >Project Name</label>
+      >
+        Project Name
+      </label>
       <input
         id="projectName"
+        ref="firstInputRef"
         v-model="formData.name"
-        type="text"
         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
+        type="text"
       >
       <p
         v-if="errors.name"
@@ -21,15 +24,15 @@
 
     <div class="flex justify-end space-x-2 mt-6">
       <button
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors duration-200"
         type="button"
         @click="emit('cancel')"
-        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors duration-200"
       >
         Cancel
       </button>
       <button
-        type="submit"
         class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200"
+        type="submit"
       >
         {{ isEditing ? 'Update Project' : 'Add Project' }}
       </button>
@@ -50,7 +53,12 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['submit', 'cancel'])
+const emit = defineEmits([
+  'submit',
+  'cancel',
+])
+
+const firstInputRef = ref<HTMLInputElement | null>(null)
 
 const formData = reactive<ProjectForm>({
   id: props.project?.id,
@@ -70,6 +78,10 @@ watch(() => props.project, (newProject) => {
     }
   }
 }, { deep: true })
+
+onMounted(() => {
+  firstInputRef.value?.focus()
+})
 
 const handleSubmit = () => {
   for (const key in errors) {

@@ -7,6 +7,7 @@
       >Title</label>
       <input
         id="title"
+        ref="firstInputRef"
         v-model="formData.title"
         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
         type="text"
@@ -137,7 +138,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, type PropType } from 'vue'
+import { reactive, computed, watch, ref, onMounted, type PropType } from 'vue' // Import ref and onMounted
 import { z } from 'zod'
 import { format } from 'date-fns'
 import { useProjectStore } from '~/store/projects'
@@ -158,6 +159,9 @@ const emit = defineEmits([
 
 const projectStore = useProjectStore()
 
+// Ref for the first input field
+const firstInputRef = ref<HTMLInputElement | null>(null)
+
 // Reactive form data, initialized from props.task or with defaults
 const formData = reactive<TaskForm>({
   uuid: props.task?.uuid,
@@ -165,8 +169,7 @@ const formData = reactive<TaskForm>({
   description: props.task?.description || '',
   dueDate: props.task?.dueDate ? format(new Date(props.task.dueDate), 'yyyy-MM-dd') : '',
   priority: props.task?.priority || 'medium',
-  // Ensure projectId is initialized as a string and defaults to the first project ID if available
-  projectId: props.task?.projectId || (projectStore.allProjects.length > 0 ? projectStore?.allProjects?.[0]?.id : ''),
+  projectId: props.task?.projectId || (projectStore.allProjects.length > 0 ? projectStore?.allProjects?.[0]?.id : '') || '',
   completed: props.task?.completed || false,
 })
 
@@ -183,7 +186,7 @@ watch(() => props.task, (newTask) => {
   formData.description = newTask?.description || ''
   formData.dueDate = newTask?.dueDate ? format(new Date(newTask.dueDate), 'yyyy-MM-dd') : ''
   formData.priority = newTask?.priority || 'medium'
-  formData.projectId = newTask?.projectId || (projectStore.allProjects.length > 0 ? projectStore?.allProjects?.[0]?.id : '')
+  formData.projectId = newTask?.projectId || (projectStore.allProjects.length > 0 ? projectStore?.allProjects?.[0]?.id : '') || ''
   formData.completed = newTask?.completed || false
   // Clear errors on task change
   for (const key in errors) {
@@ -192,6 +195,11 @@ watch(() => props.task, (newTask) => {
     }
   }
 }, { deep: true })
+
+// Focus the first input when the component is mounted
+onMounted(() => {
+  firstInputRef.value?.focus();
+});
 
 // Handle form submission
 const handleSubmit = () => {

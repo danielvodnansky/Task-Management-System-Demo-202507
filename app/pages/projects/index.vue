@@ -11,19 +11,21 @@
         Add New Project
       </button>
     </div>
-
     <div
       v-if="projectStore.allProjects.length === 0"
       class="text-center text-gray-500 py-8"
     >
       No projects found. Start by adding a new one!
     </div>
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <ProjectsProjectCard
+    <div
+      v-else
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      <ProjectsCard
         v-for="project in projectStore.allProjects"
         :key="project.id"
-        :project="project"
         :color="getProjectColor(project.id)"
+        :project="project"
       />
     </div>
 
@@ -35,7 +37,7 @@
       <template #header>
         {{ editingProject ? 'Edit Project' : 'Add New Project' }}
       </template>
-      <ProjectsProjectForm
+      <ProjectsForm
         :project="editingProject"
         @cancel="closeProjectModal"
         @submit="handleProjectFormSubmit"
@@ -46,16 +48,15 @@
 
 <script lang="ts" setup>
 import { useProjectStore } from '~/store/projects'
-import { v4 as uuidv4 } from 'uuid'; // Import uuidv4 for new project IDs
 
 const projectStore = useProjectStore()
 const { isProjectModalOpen, editingProject, openAddProjectModal, closeProjectModal, handleProjectFormSubmit } = useProjectFormModal()
 
 // Simple color mapping for demonstration, you might want a more robust system
 const projectColors: { [key: string]: string } = {
-  '1': '#60A5FA', // blue-400
-  '2': '#34D399', // green-400
-  '3': '#A78BFA', // purple-400
+  1: '#60A5FA', // blue-400
+  2: '#34D399', // green-400
+  3: '#A78BFA', // purple-400
   // Add more as needed, or generate dynamically
 }
 
