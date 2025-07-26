@@ -7,7 +7,7 @@
       <MenuMainNavigation />
     </aside>
 
-    <main class="flex-1 p-6 md:p-8 overflow-auto">
+    <main class="flex-1 container mx-auto p-6 md:p-8 overflow-auto">
       <slot />
     </main>
   </div>

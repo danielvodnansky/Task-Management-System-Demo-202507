@@ -48,6 +48,7 @@
         v-model="formData.dueDate"
         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
         type="date"
+        :min="new Date().toISOString().split('T')[0]"
       >
       <p
         v-if="errors.dueDate"
@@ -165,7 +166,7 @@ const formData = reactive<TaskForm>({
   dueDate: props.task?.dueDate ? format(new Date(props.task.dueDate), 'yyyy-MM-dd') : '',
   priority: props.task?.priority || 'medium',
   // Ensure projectId is initialized as a string and defaults to the first project ID if available
-  projectId: props.task?.projectId || (projectStore.allProjects.length > 0 ? projectStore.allProjects[0].id : ''),
+  projectId: props.task?.projectId || (projectStore.allProjects.length > 0 ? projectStore?.allProjects?.[0]?.id : ''),
   completed: props.task?.completed || false,
 })
 
@@ -182,7 +183,7 @@ watch(() => props.task, (newTask) => {
   formData.description = newTask?.description || ''
   formData.dueDate = newTask?.dueDate ? format(new Date(newTask.dueDate), 'yyyy-MM-dd') : ''
   formData.priority = newTask?.priority || 'medium'
-  formData.projectId = newTask?.projectId || (projectStore.allProjects.length > 0 ? projectStore.allProjects[0].id : '')
+  formData.projectId = newTask?.projectId || (projectStore.allProjects.length > 0 ? projectStore?.allProjects?.[0]?.id : '')
   formData.completed = newTask?.completed || false
   // Clear errors on task change
   for (const key in errors) {

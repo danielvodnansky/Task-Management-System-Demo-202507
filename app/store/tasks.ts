@@ -109,6 +109,9 @@ export const useTaskStore = defineStore('tasks', {
     deleteTask (uuid: string) {
       this.tasks = this.tasks.filter((task: Task) => task.uuid !== uuid)
     },
+    deleteTasksByProjectId(projectId: string) { // New action to delete tasks by project ID
+      this.tasks = this.tasks.filter((task: Task) => task.projectId !== projectId);
+    },
     toggleTaskCompletion (uuid: string) {
       const task = this.tasks.find((task: Task) => task.uuid === uuid)
       if (task) {

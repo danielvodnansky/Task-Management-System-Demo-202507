@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between items-center mb-6">
+  <div class="flex flex-wrap justify-between items-center mb-6">
     <h1 class="text-3xl font-bold text-gray-800">
       All Tasks
     </h1>
@@ -15,7 +15,3 @@
 <script lang="ts" setup>
 const { openAddTaskModal } = useTaskFormModal()
 </script>
-
-<style scoped>
-/* Scoped styles if any, but Tailwind is preferred */
-</style>

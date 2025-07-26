@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto p-4">
+  <div class="">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold text-gray-800">
         Tasks for Project: {{ currentProjectName }}
@@ -18,8 +18,7 @@
       <TasksFiltersAndSort />
       <!-- ProjectFilter is not needed here as the project is already defined by the route -->
     </div>
-
-    <TasksList />
+    <TasksList :project-id="route.params.id" />
 
     <!-- Task Add/Edit Modal (controlled by composable) -->
     <CommonModal

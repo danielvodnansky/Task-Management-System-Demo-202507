@@ -43,9 +43,19 @@ import MenuProjectNavLink from './MenuProjectNavLink.vue'
 
 const projectStore = useProjectStore()
 
+// Simple color mapping for demonstration, you might want a more robust system
+const projectColors: { [key: string]: string } = {
+  '1': '#60A5FA', // blue-400
+  '2': '#34D399', // green-400
+  '3': '#A78BFA', // purple-400
+  // Add more as needed
+}
 
 const getProjectColor = (projectId: string) => {
-  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-  return `#${randomColor}`;
+  return projectColors[projectId] || '#9CA3AF' // Default to gray-400
 }
 </script>
+
+<style scoped>
+/* No specific styles needed here as styling is handled by child components */
+</style>

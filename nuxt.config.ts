@@ -26,4 +26,5 @@ export default defineNuxtConfig({
   css: [
     '~/assets/css/transitions.css',
   ],
+  ssr: false,
 })

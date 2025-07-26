@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto p-4">
+  <div class="">
     <TasksHeader />
-    <div class="flex flex-col md:flex-row gap-4 mb-6">
+    <div class="flex flex-wrap flex-col md:flex-row gap-4 mb-6">
       <TasksFiltersAndSort />
       <TasksProjectFilter />
     </div>
