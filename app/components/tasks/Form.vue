@@ -138,7 +138,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, ref, onMounted, type PropType } from 'vue' // Import ref and onMounted
+import { reactive, computed, watch, ref, onMounted, type PropType } from 'vue'
 import { z } from 'zod'
 import { format } from 'date-fns'
 import { useProjectStore } from '~/store/projects'
@@ -158,11 +158,7 @@ const emit = defineEmits([
 ])
 
 const projectStore = useProjectStore()
-
-// Ref for the first input field
 const firstInputRef = ref<HTMLInputElement | null>(null)
-
-// Reactive form data, initialized from props.task or with defaults
 const formData = reactive<TaskForm>({
   uuid: props.task?.uuid,
   title: props.task?.title || '',
@@ -172,14 +168,8 @@ const formData = reactive<TaskForm>({
   projectId: props.task?.projectId || (projectStore.allProjects.length > 0 ? projectStore?.allProjects?.[0]?.id : '') || '',
   completed: props.task?.completed || false,
 })
-
-// Reactive object to hold validation errors
 const errors = reactive<Record<keyof TaskForm, string>>({} as Record<keyof TaskForm, string>)
-
-// Determine if the form is in editing mode
 const isEditing = computed(() => !!props.task)
-
-// Watch for changes in the task prop to reset form data when switching tasks or adding new
 watch(() => props.task, (newTask) => {
   formData.uuid = newTask?.uuid
   formData.title = newTask?.title || ''
@@ -188,22 +178,16 @@ watch(() => props.task, (newTask) => {
   formData.priority = newTask?.priority || 'medium'
   formData.projectId = newTask?.projectId || (projectStore.allProjects.length > 0 ? projectStore?.allProjects?.[0]?.id : '') || ''
   formData.completed = newTask?.completed || false
-  // Clear errors on task change
   for (const key in errors) {
     if (Object.prototype.hasOwnProperty.call(errors, key)) {
       errors[key as keyof TaskForm] = ''
     }
   }
 }, { deep: true })
-
-// Focus the first input when the component is mounted
 onMounted(() => {
   firstInputRef.value?.focus();
 });
-
-// Handle form submission
 const handleSubmit = () => {
-  // Clear previous errors
   for (const key in errors) {
     if (Object.prototype.hasOwnProperty.call(errors, key)) {
       errors[key as keyof TaskForm] = ''
@@ -211,12 +195,9 @@ const handleSubmit = () => {
   }
 
   try {
-    // Validate form data using Zod
     const validatedData = TaskFormSchema.parse(formData)
-    emit('submit', validatedData) // Emit validated data to parent
-  } catch (e) {
+    emit('submit', validatedData)  } catch (e) {
     if (e instanceof z.ZodError) {
-      // Map Zod errors to reactive errors object
       e.issues.forEach((issue) => {
         if (issue.path.length > 0) {
           errors[issue.path[0] as keyof TaskForm] = issue.message
@@ -230,5 +211,5 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-/* Scoped styles if any */
+
 </style>

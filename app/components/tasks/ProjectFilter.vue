@@ -57,29 +57,23 @@
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import { useProjectStore } from '~/store/projects'
-import { useTaskStore } from '~/store/tasks' // Import the task store
+import { useTaskStore } from '~/store/tasks'
 import type { Project } from '~/types/Project'
 
 const projectStore = useProjectStore()
-const taskStore = useTaskStore() // Access the task store
-
+const taskStore = useTaskStore()
 const projects = computed(() => projectStore.allProjects)
 
 const searchTerm = ref<string>('')
 const isDropdownOpen = ref<boolean>(false)
-
-// Filter projects based on the search term
 const filteredProjects = computed(() => {
   if (!searchTerm.value) {
-    return projects.value // If no search term, show all projects
+    return projects.value
   }
   const lowerCaseSearchTerm = searchTerm.value.toLowerCase()
   return projects.value.filter((project: Project) =>
-    project.name.toLowerCase().includes(lowerCaseSearchTerm), // Case-insensitive search
-  )
+    project.name.toLowerCase().includes(lowerCaseSearchTerm))
 })
-
-// Initialize searchTerm based on the current selectedProjectId from the store
 onMounted(() => {
   if (taskStore.selectedProjectId !== undefined) {
     const initialProject = projectStore.getProjectById(taskStore.selectedProjectId)
@@ -88,9 +82,6 @@ onMounted(() => {
     }
   }
 })
-
-// Watch for changes in the store's selectedProjectId and update searchTerm
-// This ensures reactivity when localStorage loads or other parts of the app change the filter
 watch(() => taskStore.selectedProjectId, (newId) => {
   if (newId !== undefined) {
     const project = projectStore.getProjectById(newId)
@@ -98,54 +89,42 @@ watch(() => taskStore.selectedProjectId, (newId) => {
       searchTerm.value = project.name
     }
   } else {
-    searchTerm.value = '' // Clear search term if project filter is cleared in store
+    searchTerm.value = ''
   }
-}, { immediate: true }); // Immediate ensures it runs on mount as well
-
-// Function to handle project selection from the dropdown
+}, { immediate: true })
 const selectProject = (project: Project) => {
-  taskStore.setProjectId(project.id) // Update store directly
-  searchTerm.value = project.name // Update search input with selected project name
-  isDropdownOpen.value = false // Close the dropdown
-}
-
-// Function to clear the project filter
-const clearProjectFilter = () => {
-  taskStore.setProjectId(undefined) // Clear project filter in store
-  searchTerm.value = '' // Clear search term
+  taskStore.setProjectId(project.id)
+  searchTerm.value = project.name
   isDropdownOpen.value = false
 }
-
-// Function to handle closing the dropdown when focus leaves the input
+const clearProjectFilter = () => {
+  taskStore.setProjectId(undefined)
+  searchTerm.value = ''
+  isDropdownOpen.value = false
+}
 const closeDropdown = () => {
-  // Delay closing to allow mousedown.prevent on list items to fire before blur
   setTimeout(() => {
     isDropdownOpen.value = false
-    // If a project was selected in the store, ensure the search term matches its name.
-    // If no project is selected but there's a search term, clear it.
     if (taskStore.selectedProjectId !== undefined) {
       const currentProject = projectStore.getProjectById(taskStore.selectedProjectId)
       if (currentProject && currentProject.name !== searchTerm.value) {
         searchTerm.value = currentProject.name
       } else if (!currentProject) {
         searchTerm.value = ''
-        taskStore.setProjectId(undefined) // Clear if selected project no longer exists
+        taskStore.setProjectId(undefined)
       }
     } else if (searchTerm.value && filteredProjects.value.length === 0) {
       searchTerm.value = ''
     }
   }, 100)
 }
-
-// Clear selected project in store if search term is cleared manually
 watch(searchTerm, (newTerm) => {
   if (!newTerm && taskStore.selectedProjectId !== undefined) {
-    // Only clear selectedProjectId if the search term is empty and a project was previously selected
     taskStore.setProjectId(undefined)
   }
 })
 </script>
 
 <style scoped>
-/* Scoped styles if any */
+
 </style>

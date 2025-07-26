@@ -13,7 +13,6 @@ export default <Partial<Config>>{
   theme: {
     extend: {
       fontFamily: {
-        // Define 'inter' font family, falling back to default sans-serif fonts
         inter: [
           'Inter',
           ...defaultTheme.fontFamily.sans,

@@ -42,13 +42,10 @@ import MenuNavLink from './MenuNavLink.vue'
 import MenuProjectNavLink from './MenuProjectNavLink.vue'
 
 const projectStore = useProjectStore()
-
-// Simple color mapping for demonstration, you might want a more robust system
 const projectColors: { [key: string]: string } = {
-  '1': '#60A5FA', // blue-400
-  '2': '#34D399', // green-400
-  '3': '#A78BFA', // purple-400
-  // Add more as needed
+  1: '#60A5FA', // blue-400
+  2: '#34D399', // green-400
+  3: '#A78BFA', // purple-400
 }
 
 const getProjectColor = (projectId: string) => {
@@ -57,5 +54,5 @@ const getProjectColor = (projectId: string) => {
 </script>
 
 <style scoped>
-/* No specific styles needed here as styling is handled by child components */
+
 </style>

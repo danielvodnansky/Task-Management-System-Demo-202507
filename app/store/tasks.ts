@@ -1,4 +1,3 @@
-// store/tasks.ts
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 import type { Task } from '~/types/Task'
@@ -43,7 +42,6 @@ export const useTaskStore = defineStore('tasks', {
         completed: false,
       },
     ] as Task[],
-    // Centralized filter and sort states
     filterStatus: 'all' as TaskFilterStatus,
     filterPriority: 'all' as TaskFilterPriority,
     sortBy: 'dueDate' as TaskSortBy,
@@ -56,29 +54,19 @@ export const useTaskStore = defineStore('tasks', {
     completedTasks: state => state.tasks.filter((task: Task) => task.completed),
     getTasksByProjectId: state => (projectId: string) =>
       state.tasks.filter((task: Task) => task.projectId === projectId),
-
-    // This getter now uses the store's internal filter and sort states
     getFilteredAndSortedTasks: (state) => {
       let filteredTasks = state.tasks
-
-      // Filter by project ID if selected
       if (state.selectedProjectId !== undefined) {
         filteredTasks = filteredTasks.filter((task: Task) => task.projectId === state.selectedProjectId)
       }
-
-      // Filter by completion status
       if (state.filterStatus === 'active') {
         filteredTasks = filteredTasks.filter((task: Task) => !task.completed)
       } else if (state.filterStatus === 'completed') {
         filteredTasks = filteredTasks.filter((task: Task) => task.completed)
       }
-
-      // Filter by priority
       if (state.filterPriority !== 'all') {
         filteredTasks = filteredTasks.filter((task: Task) => task.priority === state.filterPriority)
       }
-
-      // Sort tasks
       filteredTasks.sort((a: Task, b: Task) => {
         if (state.sortBy === 'dueDate') {
           return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
@@ -109,8 +97,8 @@ export const useTaskStore = defineStore('tasks', {
     deleteTask (uuid: string) {
       this.tasks = this.tasks.filter((task: Task) => task.uuid !== uuid)
     },
-    deleteTasksByProjectId(projectId: string) { // New action to delete tasks by project ID
-      this.tasks = this.tasks.filter((task: Task) => task.projectId !== projectId);
+    deleteTasksByProjectId (projectId: string) {
+      this.tasks = this.tasks.filter((task: Task) => task.projectId !== projectId)
     },
     toggleTaskCompletion (uuid: string) {
       const task = this.tasks.find((task: Task) => task.uuid === uuid)
@@ -118,7 +106,6 @@ export const useTaskStore = defineStore('tasks', {
         task.completed = !task.completed
       }
     },
-    // Actions to update filter and sort states
     setFilterStatus (status: TaskFilterStatus) {
       this.filterStatus = status
     },
@@ -131,7 +118,6 @@ export const useTaskStore = defineStore('tasks', {
     setProjectId (projectId: string | undefined) {
       this.selectedProjectId = projectId
     },
-    // Action to clear all filters
     clearAllFilters () {
       this.filterStatus = 'all'
       this.filterPriority = 'all'

@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue' // Ensure onMounted is imported
+import { onMounted } from 'vue'
 import { useTaskStore } from '~/store/tasks'
 import { useTaskFormModal } from '~/composables/useTaskFormModal'
 
@@ -35,5 +35,4 @@ const { isModalOpen, editingTask, closeTaskModal, handleTaskFormSubmit } = useTa
 onMounted(() => {
   taskStore.setProjectId(undefined)
 })
-
 </script>

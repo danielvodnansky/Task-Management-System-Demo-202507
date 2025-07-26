@@ -1,4 +1,3 @@
-// @ts-check
 import stylisticTs from '@stylistic/eslint-plugin'
 import withNuxt from './.nuxt/eslint.config.mjs'
 

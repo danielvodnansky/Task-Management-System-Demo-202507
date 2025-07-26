@@ -81,11 +81,9 @@
 
 <script lang="ts" setup>
 import { useTaskStore } from '~/store/tasks'
-import type { TaskFilterPriority, TaskFilterStatus, TaskSortBy } from '~/types/TaskFilterOptions'
 import { TaskPrioritySchema } from '~/types/TaskPriority'
 
 const taskStore = useTaskStore()
 
 const priorityOptions = Object.values(TaskPrioritySchema.enum)
-
 </script>

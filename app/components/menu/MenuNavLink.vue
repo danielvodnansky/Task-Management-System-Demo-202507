@@ -14,21 +14,16 @@
 
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import BaseIcon from '../icons/BaseIcon.vue' // Import the new BaseIcon component
 
-// Define the props for the NavLink component
 defineProps({
-  // The route path the link navigates to
   to: {
     type: String as PropType<string>,
     required: true,
   },
-  // The display text for the link
   label: {
     type: String as PropType<string>,
     required: true,
   },
-  // Optional: The name of the icon to display (e.g., 'Home', 'Project')
   iconName: {
     type: String as PropType<string>,
     default: '',
@@ -37,5 +32,5 @@ defineProps({
 </script>
 
 <style scoped>
-/* Scoped styles for this component, if any, but Tailwind is preferred */
+
 </style>

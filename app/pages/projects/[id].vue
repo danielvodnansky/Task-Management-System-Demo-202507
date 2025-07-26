@@ -48,8 +48,6 @@ const route = useRoute()
 const taskStore = useTaskStore()
 const projectStore = useProjectStore()
 const { isModalOpen, editingTask, openAddTaskModal, closeTaskModal, handleTaskFormSubmit } = useTaskFormModal()
-
-// Watch for changes in the route params and update the task store's selectedProjectId
 watchEffect(() => {
   const projectIdParam = route.params.id
   if (projectIdParam) {
@@ -62,21 +60,16 @@ watchEffect(() => {
 const routeProjectId = computed(() => {
   return Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
 })
-
-// Computed property to display the current project name in the header
 const currentProjectName = computed(() => {
   const projectId = routeProjectId
   if (projectId.value !== undefined) {
     const project = projectStore.getProjectById(projectId.value)
     return project ? project.name : 'Unknown Project'
   }
-  return 'All Tasks' // Fallback for safety, though this page should always have a project ID
+  return 'All Tasks'
 })
-
-// No need for local computed `filteredAndSortedTasks` or event handlers for task actions
-// as `TasksList` and `TasksCard` now directly interact with the store/composable.
 </script>
 
 <style scoped>
-/* Scoped styles for the page, if any */
+
 </style>

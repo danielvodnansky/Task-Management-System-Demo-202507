@@ -3,10 +3,8 @@ import { useTaskStore } from '~/store/tasks'
 import type { Task } from '~/types/Task'
 import type { TaskForm } from '~/types/TaskForm'
 
-// Reactive state for the modal
 const isModalOpen = ref(false)
-const editingTask = ref<Task | null>(null) // Holds the task being edited
-
+const editingTask = ref<Task | null>(null)
 export function useTaskFormModal () {
   const taskStore = useTaskStore()
 
@@ -14,7 +12,7 @@ export function useTaskFormModal () {
    * Opens the modal for adding a new task.
    */
   const openAddTaskModal = () => {
-    editingTask.value = null // Ensure no task is being edited
+    editingTask.value = null
     isModalOpen.value = true
   }
 
@@ -46,17 +44,15 @@ export function useTaskFormModal () {
    */
   const handleTaskFormSubmit = (formData: TaskForm) => {
     if (editingTask.value) {
-      // Update existing task
       taskStore.editTask({ ...editingTask.value, ...formData })
     } else {
-      // Add new task
       const newTaskData = {
         ...formData,
         projectId: formData.projectId,
       }
       taskStore.addTask(newTaskData as Omit<Task, 'uuid' | 'completed'>)
     }
-    closeTaskModal() // Close modal after submission
+    closeTaskModal()
   }
 
   return {

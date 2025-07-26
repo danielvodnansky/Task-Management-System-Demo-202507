@@ -1,4 +1,3 @@
-// composables/useProjectFormModal.ts
 import { ref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { useProjectStore } from '~/store/projects'
@@ -36,8 +35,7 @@ export function useProjectFormModal () {
       projectStore.editProject({ ...editingProject.value, ...formData })
     } else {
       const newProjectData: Project = {
-        id: uuidv4(), // Generate UUID for new projects
-        name: formData.name,
+        id: uuidv4(), name: formData.name,
       }
       projectStore.addProject(newProjectData)
     }

@@ -65,7 +65,6 @@ const emit = defineEmits(['close'])
 const closeModal = () => {
   emit('close')
 }
-// Close modal on escape key press
 watch(() => props.isOpen, (newVal) => {
   if (newVal) {
     document.addEventListener('keydown', handleEscape)
@@ -81,7 +80,6 @@ const handleEscape = (event: KeyboardEvent) => {
 </script>
 
 <style scoped>
-/* Transition styles for the modal */
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.3s ease;

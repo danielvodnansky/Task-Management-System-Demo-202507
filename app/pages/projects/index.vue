@@ -51,13 +51,10 @@ import { useProjectStore } from '~/store/projects'
 
 const projectStore = useProjectStore()
 const { isProjectModalOpen, editingProject, openAddProjectModal, closeProjectModal, handleProjectFormSubmit } = useProjectFormModal()
-
-// Simple color mapping for demonstration, you might want a more robust system
 const projectColors: { [key: string]: string } = {
   1: '#60A5FA', // blue-400
   2: '#34D399', // green-400
   3: '#A78BFA', // purple-400
-  // Add more as needed, or generate dynamically
 }
 
 const getProjectColor = (projectId: string) => {
@@ -66,5 +63,5 @@ const getProjectColor = (projectId: string) => {
 </script>
 
 <style scoped>
-/* Scoped styles for the projects page */
+
 </style>

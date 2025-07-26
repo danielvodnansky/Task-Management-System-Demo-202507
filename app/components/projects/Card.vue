@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
-    :to="`/projects/${project.id}`"
     class="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200 ease-in-out"
+    :to="`/projects/${project.id}`"
   >
     <div class="flex items-center mb-4">
       <span
@@ -53,18 +53,17 @@ const props = defineProps({
 
 const taskStore = useTaskStore()
 const projectStore = useProjectStore()
-const { openEditProjectModal } = useProjectFormModal() // Use the new composable
-
+const { openEditProjectModal } = useProjectFormModal()
 const totalTasks = computed(() => taskStore.getTasksByProjectId(props.project.id).length)
 
 const confirmDeleteProject = (id: string) => {
   if (confirm(`Are you sure you want to delete project "${props.project.name}" and all its tasks?`)) {
     projectStore.deleteProject(id)
-    taskStore.deleteTasksByProjectId(id) // Also delete associated tasks
+    taskStore.deleteTasksByProjectId(id)
   }
 }
 </script>
 
 <style scoped>
-/* Scoped styles for the project card */
+
 </style>

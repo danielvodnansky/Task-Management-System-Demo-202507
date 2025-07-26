@@ -8,9 +8,9 @@
       <input
         :checked="task.completed"
         class="mr-4 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+        title="Toggle Task Completion"
         type="checkbox"
         @change="taskStore.toggleTaskCompletion(task.uuid)"
-        title="Toggle Task Completion"
       >
       <div>
         <!-- Task Title -->
@@ -81,8 +81,7 @@ const props = defineProps({
 
 const projectStore = useProjectStore()
 const taskStore = useTaskStore()
-const { openEditTaskModal } = useTaskFormModal() // Use the composable
-
+const { openEditTaskModal } = useTaskFormModal()
 const project = computed(() => projectStore.getProjectById(props.task.projectId))
 
 const formattedDueDate = computed(() => {
@@ -111,5 +110,5 @@ const confirmDeleteTask = (uuid: string) => {
 </script>
 
 <style scoped>
-/* Scoped styles if any */
+
 </style>
