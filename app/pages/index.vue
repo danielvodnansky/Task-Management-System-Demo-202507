@@ -29,6 +29,10 @@ import { onMounted } from 'vue'
 import { useTaskStore } from '~/store/tasks'
 import { useTaskFormModal } from '~/composables/useTaskFormModal'
 
+useHead({
+  title: 'All Tasks - Task Management System',
+})
+
 const taskStore = useTaskStore()
 const { isModalOpen, editingTask, closeTaskModal, handleTaskFormSubmit } = useTaskFormModal()
 

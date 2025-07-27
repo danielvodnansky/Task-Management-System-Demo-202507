@@ -24,4 +24,10 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/transitions.css'],
   ssr: false,
+  app: {
+    head: {
+      title: 'Task Management System',
+      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    },
+  },
 })

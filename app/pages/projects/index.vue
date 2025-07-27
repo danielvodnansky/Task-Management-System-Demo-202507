@@ -49,6 +49,10 @@
 <script lang="ts" setup>
 import { useProjectStore } from '~/store/projects'
 
+useHead({
+  title: 'Your Projects - Task Management System',
+})
+
 const projectStore = useProjectStore()
 const { isProjectModalOpen, editingProject, openAddProjectModal, closeProjectModal, handleProjectFormSubmit } = useProjectFormModal()
 const projectColors: { [key: string]: string } = {

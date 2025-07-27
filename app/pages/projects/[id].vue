@@ -68,6 +68,10 @@ const currentProjectName = computed(() => {
   }
   return 'All Tasks'
 })
+
+useHead({
+  title: computed(() => `${currentProjectName.value} - Task Management System`),
+})
 </script>
 
 <style scoped>
