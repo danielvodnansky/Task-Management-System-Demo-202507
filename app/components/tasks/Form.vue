@@ -48,8 +48,8 @@
         id="dueDate"
         v-model="formData.dueDate"
         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
-        type="date"
         :min="new Date().toISOString().split('T')[0]"
+        type="date"
       >
       <p
         v-if="errors.dueDate"
@@ -185,8 +185,8 @@ watch(() => props.task, (newTask) => {
   }
 }, { deep: true })
 onMounted(() => {
-  firstInputRef.value?.focus();
-});
+  firstInputRef.value?.focus()
+})
 const handleSubmit = () => {
   for (const key in errors) {
     if (Object.prototype.hasOwnProperty.call(errors, key)) {
@@ -196,7 +196,8 @@ const handleSubmit = () => {
 
   try {
     const validatedData = TaskFormSchema.parse(formData)
-    emit('submit', validatedData)  } catch (e) {
+    emit('submit', validatedData)
+  } catch (e) {
     if (e instanceof z.ZodError) {
       e.issues.forEach((issue) => {
         if (issue.path.length > 0) {
