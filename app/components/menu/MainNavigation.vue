@@ -40,17 +40,9 @@
 import { useProjectStore } from '~/store/projects'
 import MenuNavLink from './MenuNavLink.vue'
 import MenuProjectNavLink from './MenuProjectNavLink.vue'
+import { getProjectColor } from '~/utils/projectColors'
 
 const projectStore = useProjectStore()
-const projectColors: { [key: string]: string } = {
-  1: '#60A5FA', // blue-400
-  2: '#34D399', // green-400
-  3: '#A78BFA', // purple-400
-}
-
-const getProjectColor = (projectId: string) => {
-  return projectColors[projectId] || '#9CA3AF' // Default to gray-400
-}
 </script>
 
 <style scoped>

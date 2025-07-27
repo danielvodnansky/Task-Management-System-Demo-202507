@@ -48,6 +48,7 @@
 
 <script lang="ts" setup>
 import { useProjectStore } from '~/store/projects'
+import { getProjectColor } from '~/utils/projectColors'
 
 useHead({
   title: 'Your Projects - Task Management System',
@@ -55,15 +56,6 @@ useHead({
 
 const projectStore = useProjectStore()
 const { isProjectModalOpen, editingProject, openAddProjectModal, closeProjectModal, handleProjectFormSubmit } = useProjectFormModal()
-const projectColors: { [key: string]: string } = {
-  1: '#60A5FA', // blue-400
-  2: '#34D399', // green-400
-  3: '#A78BFA', // purple-400
-}
-
-const getProjectColor = (projectId: string) => {
-  return projectColors[projectId] || '#9CA3AF' // Default to gray-400
-}
 </script>
 
 <style scoped>
