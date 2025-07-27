@@ -8,7 +8,7 @@
       <input
         id="projectFilter"
         v-model="searchTerm"
-        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-l-md"
+        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-l-md"
         placeholder="Search projects..."
         type="text"
         @blur="closeDropdown"
@@ -16,7 +16,7 @@
       >
       <button
         v-if="taskStore.selectedProjectId !== undefined"
-        class="mt-1 px-3 py-2 bg-gray-200 text-gray-700 rounded-r-md hover:bg-gray-300 transition-colors duration-200 text-sm"
+        class="mt-1 px-3 py-2 bg-gray-200 text-gray-700 rounded-r-md hover:bg-gray-300 transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
         title="Clear Project Filter"
         @click="clearProjectFilter"
       >
@@ -35,7 +35,7 @@
         <li
           v-for="project in filteredProjects"
           :key="project.id"
-          class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-blue-100 hover:text-blue-900"
+          class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-300"
           :class="{ 'bg-blue-50 text-blue-900': project.id === taskStore.selectedProjectId }"
           @mousedown.prevent="selectProject(project)"
         >

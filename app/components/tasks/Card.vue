@@ -7,7 +7,7 @@
       <!-- Checkbox to toggle task completion -->
       <input
         :checked="task.completed"
-        class="mr-4 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+        class="mr-4 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         title="Toggle Task Completion"
         type="checkbox"
         @change="taskStore.toggleTaskCompletion(task.uuid)"
@@ -46,7 +46,7 @@
     <!-- Action Buttons -->
     <div class="flex items-center space-x-2 ml-4">
       <button
-        class="p-2 rounded-full text-blue-600 hover:bg-blue-100 transition-colors duration-200"
+        class="p-2 rounded-full text-blue-600 hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
         :disabled="task.completed"
         title="Edit Task"
         @click="openEditTaskModal(task.uuid)"
@@ -54,7 +54,7 @@
         <IconsBaseIcon name="edit" />
       </button>
       <button
-        class="p-2 rounded-full text-red-600 hover:bg-red-100 transition-colors duration-200"
+        class="p-2 rounded-full text-red-600 hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300"
         :disabled="task.completed"
         title="Delete Task"
         @click="confirmDeleteTask(task.uuid)"

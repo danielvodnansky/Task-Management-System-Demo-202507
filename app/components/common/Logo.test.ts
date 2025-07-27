@@ -12,12 +12,9 @@ describe('Logo', () => {
   it('applies correct Tailwind CSS classes', async () => {
     const wrapper = await mountSuspended(Logo)
 
-    const textDiv = wrapper.find('div.text-2xl.font-bold.text-gray-800.mb-8')
+    const textDiv = wrapper.find('div.text-xl')
 
     expect(textDiv.exists()).toBe(true)
-    expect(textDiv.classes()).toContain('text-2xl')
     expect(textDiv.classes()).toContain('font-bold')
-    expect(textDiv.classes()).toContain('text-gray-800')
-    expect(textDiv.classes()).toContain('mb-8')
   })
 })

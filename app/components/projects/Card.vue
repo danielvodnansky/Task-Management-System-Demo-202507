@@ -17,14 +17,14 @@
     </p>
     <div class="flex justify-end space-x-2">
       <button
-        class="p-2 rounded-full text-blue-600 hover:bg-blue-100 transition-colors duration-200"
+        class="p-2 rounded-full text-blue-600 hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
         title="Edit Project"
         @click.prevent="openEditProjectModal(project.id)"
       >
         <IconsBaseIcon name="edit" />
       </button>
       <button
-        class="p-2 rounded-full text-red-600 hover:bg-red-100 transition-colors duration-200"
+        class="p-2 rounded-full text-red-600 hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300"
         title="Delete Project"
         @click.prevent="confirmDeleteProject(project.id)"
       >
