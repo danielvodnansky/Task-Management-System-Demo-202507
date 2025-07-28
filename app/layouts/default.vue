@@ -4,8 +4,9 @@
       class="w-full md:w-64 bg-white shadow-md p-4 flex flex-col items-center md:items-start dark:bg-gray-800 dark:shadow-lg transition-colors duration-300"
     >
       <CommonLogo />
-      <MenuMainNavigation />
+      <LazyMenuMainNavigation />
       <div class="mt-auto w-full pt-4 border-t border-gray-200 dark:border-gray-700">
+        <CommonLogout class="" />
         <CommonColorToggler />
       </div>
     </aside>

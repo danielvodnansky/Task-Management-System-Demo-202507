@@ -38,8 +38,6 @@
 
 <script lang="ts" setup>
 import { useProjectStore } from '~/store/projects'
-import MenuNavLink from './MenuNavLink.vue'
-import MenuProjectNavLink from './MenuProjectNavLink.vue'
 import { getProjectColor } from '~/utils/projectColors'
 
 const projectStore = useProjectStore()

@@ -24,7 +24,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useTaskStore } from '~/store/tasks'
-import TasksCard from './Card.vue'
 
 const taskStore = useTaskStore()
 
