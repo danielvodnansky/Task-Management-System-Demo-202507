@@ -1,51 +1,14 @@
 import { defineStore } from 'pinia'
-import { v4 as uuidv4 } from 'uuid'
-import type { Task } from '~/types/Task'
+import type { Task } from '~/types/Task' // Ensure Task is imported
 import type { TaskFilterStatus, TaskFilterPriority, TaskSortBy } from '~/types/TaskFilterOptions'
 
 export const useTaskStore = defineStore('tasks', {
   state: () => ({
-    tasks: [
-      {
-        uuid: uuidv4(),
-        title: 'Buy groceries',
-        description: 'Milk, eggs, bread, fruits',
-        dueDate: new Date(Date.now() + 86400000 * 2).toISOString(), // 2 days from now
-        priority: 'high',
-        projectId: '1',
-        completed: false,
-      },
-      {
-        uuid: uuidv4(),
-        title: 'Finish report',
-        description: 'Complete the Q3 financial report',
-        dueDate: new Date(Date.now() + 86400000 * 5).toISOString(), // 5 days from now
-        priority: 'medium',
-        projectId: '1',
-        completed: false,
-      },
-      {
-        uuid: uuidv4(),
-        title: 'Call mom',
-        dueDate: new Date(Date.now() + 86400000).toISOString(), // 1 day from now
-        priority: 'low',
-        projectId: '2',
-        completed: true,
-      },
-      {
-        uuid: uuidv4(),
-        title: 'Learn Nuxt 3',
-        description: 'Read documentation and build a small app',
-        dueDate: new Date(Date.now() + 86400000 * 10).toISOString(), // 10 days from now
-        priority: 'high',
-        projectId: '3',
-        completed: false,
-      },
-    ] as Task[],
+    tasks: [] as Task[],
     filterStatus: 'all' as TaskFilterStatus,
     filterPriority: 'all' as TaskFilterPriority,
     sortBy: 'dueDate' as TaskSortBy,
-    selectedProjectId: undefined as string | undefined, // New state for project filter
+    selectedProjectId: undefined as string | undefined,
   }),
 
   getters: {
@@ -80,30 +43,63 @@ export const useTaskStore = defineStore('tasks', {
   },
 
   actions: {
-    addTask (task: Omit<Task, 'uuid' | 'completed'>) {
-      const newTask: Task = {
-        uuid: uuidv4(),
-        completed: false,
-        ...task,
-      }
-      this.tasks.push(newTask)
-    },
-    editTask (updatedTask: Task) {
-      const index = this.tasks.findIndex((task: Task) => task.uuid === updatedTask.uuid)
-      if (index !== -1) {
-        this.tasks[index] = updatedTask
+    async fetchTasks (projectId?: string) {
+      try {
+        const query = projectId ? { projectId } : {}
+        const response = await $fetch<Task[]>('/api/tasks', { query })
+        this.tasks = response
+        console.log('Fetched tasks:', this.tasks)
+      } catch (error) {
+        console.error('Error fetching tasks:', error)
       }
     },
-    deleteTask (uuid: string) {
-      this.tasks = this.tasks.filter((task: Task) => task.uuid !== uuid)
+    async addTask (task: Omit<Task, 'uuid' | 'completed'>) {
+      try {
+        const newTask = await $fetch<Task>('/api/tasks', {
+          method: 'POST',
+          body: task,
+        })
+        this.tasks.push(newTask)
+        console.log('Added task:', newTask)
+      } catch (error) {
+        console.error('Error adding task:', error)
+      }
     },
-    deleteTasksByProjectId (projectId: string) {
-      this.tasks = this.tasks.filter((task: Task) => task.projectId !== projectId)
+    async editTask (updatedTask: Task) {
+      try {
+        const response = await $fetch<Task>(`/api/tasks/${updatedTask.uuid}`, {
+          method: 'PUT',
+          body: updatedTask,
+        })
+        const index = this.tasks.findIndex((t: Task) => t.uuid === response.uuid)
+        if (index !== -1) {
+          this.tasks[index] = response
+          console.log('Edited task:', response)
+        }
+      } catch (error) {
+        console.error('Error editing task:', error)
+      }
+    },
+    async deleteTask (uuid: string) {
+      try {
+        await $fetch(`/api/tasks/${uuid}`, {
+          method: 'DELETE',
+        })
+        this.tasks = this.tasks.filter((task: Task) => task.uuid !== uuid)
+        console.log('Deleted task:', uuid)
+      } catch (error) {
+        console.error('Error deleting task:', error)
+      }
+    },
+    async deleteTasksByProjectId (projectId: string) {
+      await this.fetchTasks(this.selectedProjectId)
+      console.log(`Tasks for project ${projectId} deleted (via project delete endpoint).`)
     },
     toggleTaskCompletion (uuid: string) {
       const task = this.tasks.find((task: Task) => task.uuid === uuid)
       if (task) {
         task.completed = !task.completed
+        this.editTask(task) // Re-use editTask for this
       }
     },
     setFilterStatus (status: TaskFilterStatus) {
@@ -123,7 +119,7 @@ export const useTaskStore = defineStore('tasks', {
       this.filterPriority = 'all'
       this.sortBy = 'dueDate'
       this.selectedProjectId = undefined
+      this.fetchTasks() // Fetch all tasks when filters are cleared
     },
   },
-  persist: true,
 })

@@ -3,11 +3,7 @@ import type { Project } from '~/types/Project'
 
 export const useProjectStore = defineStore('projects', {
   state: () => ({
-    projects: [
-      { id: '1', name: 'Work Tasks' },
-      { id: '2', name: 'Personal Errands' },
-      { id: '3', name: 'Study Goals' },
-    ] as Project[], // initial data
+    projects: [] as Project[],
   }),
 
   getters: {
@@ -16,18 +12,52 @@ export const useProjectStore = defineStore('projects', {
   },
 
   actions: {
-    addProject (project: Project) {
-      this.projects.push(project)
-    },
-    editProject (updatedProject: Project) {
-      const index = this.projects.findIndex((project: Project) => project.id === updatedProject.id)
-      if (index !== -1) {
-        this.projects[index] = updatedProject
+    async fetchProjects () {
+      try {
+        const response = await $fetch<Project[]>('/api/projects')
+        this.projects = response
+        console.log('Fetched projects:', this.projects)
+      } catch (error) {
+        console.error('Error fetching projects:', error)
       }
     },
-    deleteProject (id: string) {
-      this.projects = this.projects.filter((project: Project) => project.id !== id)
+    async addProject (project: Omit<Project, 'id'>) {
+      try {
+        const newProject = await $fetch<Project>('/api/projects', {
+          method: 'POST',
+          body: project,
+        })
+        this.projects.push(newProject)
+        console.log('Added project:', newProject)
+      } catch (error) {
+        console.error('Error adding project:', error)
+      }
+    },
+    async editProject (updatedProject: Project) {
+      try {
+        const response = await $fetch<Project>(`/api/projects/${updatedProject.id}`, {
+          method: 'PUT',
+          body: updatedProject,
+        })
+        const index = this.projects.findIndex((p: Project) => p.id === response.id)
+        if (index !== -1) {
+          this.projects[index] = response
+          console.log('Edited project:', response)
+        }
+      } catch (error) {
+        console.error('Error editing project:', error)
+      }
+    },
+    async deleteProject (id: string) {
+      try {
+        await $fetch(`/api/projects/${id}`, {
+          method: 'DELETE',
+        })
+        this.projects = this.projects.filter((project: Project) => project.id !== id)
+        console.log('Deleted project:', id)
+      } catch (error) {
+        console.error('Error deleting project:', error)
+      }
     },
   },
-  persist: true,
 })

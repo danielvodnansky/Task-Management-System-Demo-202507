@@ -2,8 +2,6 @@ import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    // Initialize loggedIn state. For persistence, this would typically
-    // be loaded from localStorage or a cookie. Pinia persistedstate will handle this.
     loggedIn: false,
   }),
   getters: {

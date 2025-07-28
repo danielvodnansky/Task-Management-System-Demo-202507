@@ -7,7 +7,6 @@
     </div>
     <TasksList />
 
-    <!-- Task Add/Edit Modal (controlled by composable) -->
     <CommonModal
       :is-open="isModalOpen"
       @close="closeTaskModal"
@@ -37,6 +36,7 @@ const taskStore = useTaskStore()
 const { isModalOpen, editingTask, closeTaskModal, handleTaskFormSubmit } = useTaskFormModal()
 
 onMounted(() => {
+  taskStore.fetchTasks()
   taskStore.setProjectId(undefined)
 })
 </script>

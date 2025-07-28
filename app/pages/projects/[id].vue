@@ -72,6 +72,9 @@ const currentProjectName = computed(() => {
 useHead({
   title: computed(() => `${currentProjectName.value} - Task Management System`),
 })
+onMounted(async () => {
+  await projectStore.fetchProjects()
+})
 </script>
 
 <style scoped>

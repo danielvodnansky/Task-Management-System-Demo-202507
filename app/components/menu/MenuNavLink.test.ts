@@ -1,4 +1,3 @@
-// app/components/menu/MenuNavLink.test.ts
 import { describe, it, expect } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import MenuNavLink from './MenuNavLink.vue'

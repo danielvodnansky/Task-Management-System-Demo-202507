@@ -41,6 +41,10 @@ import { useProjectStore } from '~/store/projects'
 import { getProjectColor } from '~/utils/projectColors'
 
 const projectStore = useProjectStore()
+
+onMounted(async () => {
+  await projectStore.fetchProjects()
+})
 </script>
 
 <style scoped>

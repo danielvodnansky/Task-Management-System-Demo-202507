@@ -17,20 +17,12 @@
 
 <script lang="ts" setup>
 import { useAuthStore } from '~/store/auth'
-
-// Set the page title for the login page
 useHead({
   title: 'Login - Task Management System',
 })
-
-// Apply the 'guest' layout to this page
 definePageMeta({
   layout: 'guest',
 })
 
 const authStore = useAuthStore()
 </script>
-
-<style scoped>
-/* No specific styles needed here, Tailwind handles it */
-</style>
