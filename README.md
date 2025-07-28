@@ -1,6 +1,6 @@
 # Task Management System
 
-This is a simple, yet effective, Task Management System built with Nuxt 3 and Pinia. It allows users to organize their tasks into projects, set due dates and priorities, and track completion status. The application features a clean, responsive user interface with light/dark mode support and a mock backend for data persistence.
+This is a simple, yet effective, Task Management System built with Nuxt 4 and Pinia. It allows users to organize their tasks into projects, set due dates and priorities, and track completion status. The application features a clean, responsive user interface with light/dark mode support and a mock backend for data persistence.
 
 ## 🚀 Features
 
