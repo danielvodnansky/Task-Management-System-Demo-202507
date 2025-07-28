@@ -1,4 +1,3 @@
-// test/utils/projectColors.test.ts
 import { describe, it, expect } from 'vitest'
 import { getProjectColor } from '~/utils/projectColors' // Import the utility function
 
@@ -10,8 +9,6 @@ describe('getProjectColor', () => {
   })
 
   it('should handle null or undefined project IDs gracefully (returning default)', () => {
-    // TypeScript might warn about passing null/undefined if the type isn't explicitly string | undefined,
-    // but in JavaScript, these would resolve to the default.
     expect(getProjectColor(null as any)).toBe('#9CA3AF')
     expect(getProjectColor(undefined as any)).toBe('#9CA3AF')
   })
