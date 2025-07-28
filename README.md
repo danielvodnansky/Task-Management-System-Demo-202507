@@ -1,97 +1,86 @@
-## Objective
+# Task Management System
 
-Build a **Task Management System** that supports:
+This is a simple, yet effective, Task Management System built with Nuxt 3 and Pinia. It allows users to organize their tasks into projects, set due dates and priorities, and track completion status. The application features a clean, responsive user interface with light/dark mode support and a mock backend for data persistence.
 
-- Project-based task grouping via dynamic routes
-- Form validation using Zod
-- Global state management with Pinia
-- Styling with Tailwind CSS
-- Full type-safety using TypeScript
-- Unit tests using Vitest
+## 🚀 Features
 
-The app must persist state across reloads (using localStorage or composables).
+* **Task Management**: Add, edit, delete, and toggle completion status for tasks.
 
----
+* **Project Organization**: Group tasks under different projects.
 
-## Tech Stack Requirements
+* **Filtering & Sorting**: Filter tasks by status (active/completed) and priority (low, medium, high). Sort tasks by due date or title.
 
-| Tool             | Purpose                     |
-| ---------------- | --------------------------- |
-| **Nuxt 3**       | Core application framework  |
-| **TypeScript**   | Type safety                 |
-| **Zod**          | Schema & runtime validation |
-| **Pinia**        | State management            |
-| **Tailwind CSS** | Utility-first CSS framework |
-| **Vitest**       | Unit testing                |
+* **Project-Specific Views**: View tasks associated with a particular project.
 
-You may use other utilities as needed, but the above are mandatory.
+* **Dynamic Project List**: Projects are dynamically loaded and displayed in the navigation.
 
----
+* **Responsive Design**: Optimized for various screen sizes (mobile, tablet, desktop).
 
-## Requirements
+* **Light/Dark Mode**: Toggle between light and dark themes for improved user experience.
 
-### Core Features
+* **Mock Authentication**: Simple "login" and "logout" functionality to protect routes.
 
-#### Tasks
+* **Mock Backend Integration**: Data operations (CRUD) are simulated using server API endpoints in Nuxt, providing a realistic development experience without a full database.
 
-- Add, edit, delete tasks
-- Task properties:
-  - `uuid`: UUID
-  - `title`: required, 3–100 characters
-  - `description`: optional, max 1000 characters
-  - `dueDate`: ISO string, must be future date on creation
-  - `priority`: `"low" | "medium" | "high"`
-  - `projectId`: number
-  - `completed`: boolean
-- Use **Zod** for all form validation
-- Show inline error messages
+## 🛠️ Technologies Used
 
-#### Projects
+* **Nuxt 3**: The intuitive Vue framework for building web applications.
 
-- Tasks are grouped by `projectId`
-- Support project views via dynamic route: `/projects/[projectId]`
+* **Vue 3**: Progressive JavaScript framework for building user interfaces.
 
-#### Filters & Sorting
+* **Pinia**: A lightweight and powerful state management library for Vue.js.
 
-- Filter tasks by:
-  - Completion status (all, active, completed)
-  - Priority level
-- Sort tasks by due date or title
+* **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
 
-#### Persistence
+* **Zod**: TypeScript-first schema declaration and validation library for robust form validation.
 
-- Persist tasks and projects in localStorage or cookies using Nuxt composables
+* **date-fns**: A modern JavaScript date utility library.
 
----
+* **Vitest**: A blazing fast unit test framework powered by Vite.
 
-### UI & UX
+* **@nuxtjs/color-mode**: Nuxt module for easy light/dark mode implementation.
 
-- Use **Tailwind CSS**
-- Fully responsive (mobile, tablet, desktop)
-- Create reusable components:
-  - `TaskCard.vue`, `TaskForm.vue`, `ProjectHeader.vue`, etc.
-- Use transitions or animations where appropriate
-- Focus on accessibility and keyboard navigation
+## 📦 Installation & Local Development
 
----
+To get this project up and running on your local machine, follow these steps:
 
-### Testing
+1.  **Clone the repository:**
 
-Use **Vitest** to test:
+    ```bash
+    git clone https://github.com/danielvodnansky/Task-Management-System-Demo-202507
+    cd Task-Management-System-Demo-202507
+    ```
 
-- Zod schemas (valid and invalid inputs)
-- Pinia stores (actions, getters, reactivity)
-- Utility functions (e.g., filtering, sorting logic)
-- Optional: Add component tests using Nuxt Test Utils
+2.  **Install dependencies:**
 
----
+    ```bash
+    yarn install
+    ```
 
-### Bonus (Optional)
+3.  **Run the development server:**
 
-- Drag-and-drop reordering of tasks
-- Dark/light mode toggle
-- Mock authentication middleware (e.g., block routes unless "logged in")
-- Store data remotely using a mock backend (e.g., JSON Server or Nuxt server routes)
-- Deploy to Netlify/Vercel with live demo
+    ```bash
+    yarn dev
+    ```
 
----
+    The application will be accessible at `http://localhost:3000`.
+
+## ⚙️ Mock Backend
+
+This application utilizes a **mock backend** implemented directly within the Nuxt server API routes. This mock backend stores data in memory and resets whenever the Nuxt development server is restarted.
+
+The code for the server-side mock is located in the `server/` directory. If you are looking for the version of the application with the mock backend implementation, it is available in the `mock-be-store-server` branch.
+
+## 🌐 Deployment
+
+This application is deployed and publicly accessible on Netlify:
+
+**Live Demo:** <https://stunning-douhua-95a686.netlify.app/>
+
+## 🧪 Testing
+
+Unit tests are set up using Vitest and `@nuxt/test-utils`. To run the tests:
+
+```bash
+yarn test
+# or npm test
