@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    class="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200 ease-in-out"
+    class="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:shadow-lg dark:hover:shadow-xl"
     :to="`/projects/${project.id}`"
   >
     <div class="flex items-center mb-4">
@@ -8,23 +8,23 @@
         class="w-3 h-3 rounded-full mr-3"
         :style="{ 'background-color': color }"
       />
-      <h3 class="text-xl font-semibold text-gray-800">
+      <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">
         {{ project.name }}
       </h3>
     </div>
-    <p class="text-sm text-gray-600 mb-4">
+    <p class="text-sm text-gray-600 mb-4 dark:text-gray-300">
       Total Tasks: {{ totalTasks }}
     </p>
     <div class="flex justify-end space-x-2">
       <button
-        class="p-2 rounded-full text-blue-600 hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        class="p-2 rounded-full text-blue-600 hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:text-blue-400 dark:hover:bg-blue-900"
         title="Edit Project"
         @click.prevent="openEditProjectModal(project.id)"
       >
         <IconsBaseIcon name="edit" />
       </button>
       <button
-        class="p-2 rounded-full text-red-600 hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300"
+        class="p-2 rounded-full text-red-600 hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 dark:text-red-400 dark:hover:bg-red-900"
         title="Delete Project"
         @click.prevent="confirmDeleteProject(project.id)"
       >

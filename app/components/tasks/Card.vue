@@ -1,31 +1,31 @@
 <template>
   <div
-    class="bg-white p-4 rounded-lg shadow-md flex items-center justify-between transition-all duration-200 ease-in-out"
+    class="bg-white p-4 rounded-lg shadow-md flex items-center justify-between transition-all duration-200 ease-in-out dark:bg-gray-800 dark:shadow-lg"
     :class="{ 'opacity-60 line-through': task.completed }"
   >
     <div class="flex items-center flex-grow">
       <!-- Checkbox to toggle task completion -->
       <input
         :checked="task.completed"
-        class="mr-4 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        class="mr-4 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-700 dark:checked:bg-blue-500"
         title="Toggle Task Completion"
         type="checkbox"
         @change="taskStore.toggleTaskCompletion(task.uuid)"
       >
       <div>
         <!-- Task Title -->
-        <h3 class="text-lg font-semibold text-gray-800">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
           {{ task.title }}
         </h3>
         <!-- Task Description (if available) -->
         <p
           v-if="task.description"
-          class="text-sm text-gray-600 mt-1"
+          class="text-sm text-gray-600 mt-1 dark:text-gray-300"
         >
           {{ task.description }}
         </p>
         <!-- Task Details: Due Date and Priority -->
-        <div class="flex items-center text-sm text-gray-500 mt-2 space-x-3">
+        <div class="flex items-center text-sm text-gray-500 mt-2 space-x-3 dark:text-gray-400">
           <span class="flex items-center">
             <IconsBaseIcon name="calendar" />
             {{ formattedDueDate }}
@@ -36,7 +36,7 @@
           >
             {{ task.priority }}
           </span>
-          <span class="text-xs text-gray-500">
+          <span class="text-xs text-gray-500 dark:text-gray-400">
             Project: {{ project?.name || 'N/A' }}
           </span>
         </div>
@@ -92,13 +92,13 @@ const formattedDueDate = computed(() => {
 const priorityClass = computed(() => {
   switch (props.task.priority) {
     case 'low':
-      return 'bg-green-100 text-green-800'
+      return 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
     case 'medium':
-      return 'bg-yellow-100 text-yellow-800'
+      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100'
     case 'high':
-      return 'bg-red-100 text-red-800'
+      return 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
   }
 })
 

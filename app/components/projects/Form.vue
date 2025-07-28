@@ -2,7 +2,7 @@
   <form @submit.prevent="handleSubmit">
     <div class="mb-4">
       <label
-        class="block text-sm font-medium text-gray-700"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300"
         for="projectName"
       >
         Project Name
@@ -11,7 +11,7 @@
         id="projectName"
         ref="firstInputRef"
         v-model="formData.name"
-        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
         type="text"
       >
       <p
@@ -24,14 +24,14 @@
 
     <div class="flex justify-end space-x-2 mt-6">
       <button
-        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors duration-200"
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:focus:ring-gray-500"
         type="button"
         @click="emit('cancel')"
       >
         Cancel
       </button>
       <button
-        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 dark:focus:ring-blue-500"
         type="submit"
       >
         {{ isEditing ? 'Update Project' : 'Add Project' }}

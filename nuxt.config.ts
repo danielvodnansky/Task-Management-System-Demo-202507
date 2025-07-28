@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
     '@nuxt/test-utils/module',
     '@pinia-plugin-persistedstate/nuxt',
   ],

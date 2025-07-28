@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100">
       All Tasks
     </h1>
     <button

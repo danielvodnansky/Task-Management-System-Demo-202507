@@ -6,18 +6,18 @@
       @click.self="closeModal"
     >
       <div
-        class="bg-white rounded-lg shadow-xl max-w-lg w-full p-6 relative transform transition-all sm:w-full"
+        class="bg-white rounded-lg shadow-xl max-w-lg w-full p-6 relative transform transition-all sm:w-full dark:bg-gray-800 dark:shadow-lg"
         @click.stop
       >
         <!-- Modal Header -->
         <div class="flex justify-between items-center mb-4">
-          <h3 class="text-xl font-semibold text-gray-900">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
             <slot name="header">
               Modal Title
             </slot>
           </h3>
           <button
-            class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            class="text-gray-400 hover:text-gray-600 transition-colors duration-200 dark:text-gray-500 dark:hover:text-gray-300"
             @click="closeModal"
           >
             <IconsBaseIcon name="times" />
@@ -32,7 +32,7 @@
         <!-- Modal Footer (optional) -->
         <div
           v-if="$slots.footer"
-          class="modal-footer mt-6 pt-4 border-t border-gray-200 flex justify-end space-x-2"
+          class="modal-footer mt-6 pt-4 border-t border-gray-200 flex justify-end space-x-2 dark:border-gray-700"
         >
           <slot name="footer" />
         </div>

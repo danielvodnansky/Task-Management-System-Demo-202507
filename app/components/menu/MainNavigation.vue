@@ -17,7 +17,7 @@
           to="/projects"
         />
       </li>
-      <li class="mt-4 text-sm font-semibold text-gray-500 uppercase px-2">
+      <li class="mt-4 text-sm font-semibold text-gray-500 uppercase px-2 dark:text-gray-400">
         Your Projects
       </li>
       <!-- Using MenuProjectNavLink for individual project links -->

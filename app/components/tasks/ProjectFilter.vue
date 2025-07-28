@@ -1,14 +1,14 @@
 <template>
   <div class="w-full md:w-auto relative">
     <label
-      class="block text-sm font-medium text-gray-700 mb-1"
+      class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300"
       for="projectFilter"
     >Project:</label>
     <div class="flex items-center">
       <input
         id="projectFilter"
         v-model="searchTerm"
-        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-l-md"
+        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-l-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
         placeholder="Search projects..."
         type="text"
         @blur="closeDropdown"
@@ -16,7 +16,7 @@
       >
       <button
         v-if="taskStore.selectedProjectId !== undefined"
-        class="mt-1 px-3 py-2 bg-gray-200 text-gray-700 rounded-r-md hover:bg-gray-300 transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+        class="mt-1 px-3 py-2 bg-gray-200 text-gray-700 rounded-r-md hover:bg-gray-300 transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:focus:ring-gray-500"
         title="Clear Project Filter"
         @click="clearProjectFilter"
       >
@@ -26,7 +26,7 @@
 
     <div
       v-if="isDropdownOpen && filteredProjects.length > 0"
-      class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+      class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm dark:bg-gray-800 dark:shadow-xl dark:ring-gray-700"
     >
       <ul
         aria-labelledby="projectFilter"
@@ -35,8 +35,10 @@
         <li
           v-for="project in filteredProjects"
           :key="project.id"
-          class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-300"
-          :class="{ 'bg-blue-50 text-blue-900': project.id === taskStore.selectedProjectId }"
+          class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:text-gray-100 dark:hover:bg-blue-900 dark:hover:text-blue-200"
+          :class="{ 'bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-200': project.id === taskStore.selectedProjectId }"
+          tabindex="0"
+          @keydown.enter="selectProject(project)"
           @mousedown.prevent="selectProject(project)"
         >
           <span class="font-normal block truncate">
@@ -47,7 +49,7 @@
     </div>
     <div
       v-else-if="isDropdownOpen && filteredProjects.length === 0 && searchTerm.length > 0"
-      class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-2 px-3 text-sm text-gray-500"
+      class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-2 px-3 text-sm text-gray-500 dark:bg-gray-800 dark:shadow-xl dark:text-gray-400"
     >
       No projects found.
     </div>

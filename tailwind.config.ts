@@ -20,4 +20,5 @@ export default <Partial<Config>>{
       },
     },
   },
+  // darkMode: 'selector',
 }
