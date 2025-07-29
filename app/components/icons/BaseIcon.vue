@@ -2,7 +2,7 @@
   <!-- Use an img tag to load the SVG from the public directory -->
   <img
     :alt="`${name} icon`"
-    class="base-icon w-5 h-5 mr-3"
+    class="base-icon w-5 h-5 mx-2"
     :class="svgClasses"
     loading="lazy"
     :src="iconPath"

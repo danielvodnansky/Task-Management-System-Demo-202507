@@ -69,7 +69,7 @@
     </div>
 
     <!-- Clear All Filters Button -->
-    <div class="w-full md:w-auto flex items-end">
+    <div class="w-full md:w-auto flex items-end md:pt-6">
       <button
         class="w-full md:w-auto px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200 text-sm mt-auto focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:focus:ring-gray-500"
         @click="taskStore.clearAllFilters()"
