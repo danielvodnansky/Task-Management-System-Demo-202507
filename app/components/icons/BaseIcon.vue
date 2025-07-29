@@ -2,7 +2,7 @@
   <!-- Use an img tag to load the SVG from the public directory -->
   <img
     :alt="`${name} icon`"
-    class=" base-icon w-5 h-5 mr-3"
+    class="base-icon w-5 h-5 mr-3"
     :class="svgClasses"
     loading="lazy"
     :src="iconPath"
@@ -25,6 +25,11 @@ const props = defineProps({
 const iconPath = computed(() => `/icons/${props.name.toLowerCase()}.svg`)
 </script>
 
-<style scoped>
-
+<style>
+.base-icon {
+  transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+}
+html.dark-mode .base-icon {
+  filter: invert(1);
+}
 </style>
