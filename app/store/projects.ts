@@ -1,13 +1,32 @@
 import { defineStore } from 'pinia'
 import type { Project } from '~/types/Project'
 
-export const useProjectStore = defineStore('projects', {
+// 1. Define the State Interface
+interface ProjectState {
+  projects: Project[];
+}
+
+// 2. Define the Getters Interface
+interface ProjectGetters extends Record<string, (state: ProjectState) => any> {
+  allProjects: (state: ProjectState) => Project[];
+  getProjectById: (state: ProjectState) => (id: string) => Project | undefined;
+}
+
+// 3. Define the Actions Interface
+interface ProjectActions {
+  addProject: (project: Project) => void;
+  editProject: (updatedProject: Project) => void;
+  deleteProject: (id: string) => void;
+}
+
+export const useProjectStore = defineStore<'projects', ProjectState, ProjectGetters, ProjectActions>('projects', {
   state: () => ({
     projects: [
       { id: '1', name: 'Work Tasks' },
       { id: '2', name: 'Personal Errands' },
       { id: '3', name: 'Study Goals' },
     ] as Project[], // initial data
+    xx: '',
   }),
 
   getters: {

@@ -3,7 +3,39 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Task } from '~/types/Task'
 import type { TaskFilterStatus, TaskFilterPriority, TaskSortBy } from '~/types/TaskFilterOptions'
 
-export const useTaskStore = defineStore('tasks', {
+// 1. Define the State Interface
+interface TaskState {
+  tasks: Task[];
+  filterStatus: TaskFilterStatus;
+  filterPriority: TaskFilterPriority;
+  sortBy: TaskSortBy;
+  selectedProjectId: string | undefined;
+}
+
+// 2. Define the Getters Interface
+interface TaskGetters extends Record<string, (state: TaskState) => any> {
+  allTasks: (state: TaskState) => Task[];
+  activeTasks: (state: TaskState) => Task[];
+  completedTasks: (state: TaskState) => Task[];
+  getTasksByProjectId: (state: TaskState) => (projectId: string) => Task[];
+  getFilteredAndSortedTasks: (state: TaskState) => Task[];
+}
+
+// 3. Define the Actions Interface
+interface TaskActions {
+  addTask: (task: Omit<Task, 'uuid' | 'completed'>) => void;
+  editTask: (updatedTask: Task) => void;
+  deleteTask: (uuid: string) => void;
+  deleteTasksByProjectId: (projectId: string) => void;
+  toggleTaskCompletion: (uuid: string) => void;
+  setFilterStatus: (status: TaskFilterStatus) => void;
+  setFilterPriority: (priority: TaskFilterPriority) => void;
+  setSortBy: (sortBy: TaskSortBy) => void;
+  setProjectId: (projectId: string | undefined) => void;
+  clearAllFilters: () => void;
+}
+
+export const useTaskStore = defineStore<'tasks', TaskState, TaskGetters, TaskActions>('tasks', {
   state: () => ({
     tasks: [
       {
@@ -42,10 +74,10 @@ export const useTaskStore = defineStore('tasks', {
         completed: false,
       },
     ] as Task[],
-    filterStatus: 'all' as TaskFilterStatus,
-    filterPriority: 'all' as TaskFilterPriority,
-    sortBy: 'dueDate' as TaskSortBy,
-    selectedProjectId: undefined as string | undefined, // New state for project filter
+    filterStatus: 'all',
+    filterPriority: 'all',
+    sortBy: 'dueDate',
+    selectedProjectId: undefined,
   }),
 
   getters: {

@@ -1,6 +1,19 @@
 import { defineStore } from 'pinia'
 
-export const useAuthStore = defineStore('auth', {
+interface AuthState {
+  loggedIn: boolean;
+}
+
+interface AuthGetters extends Record<string, (state: AuthState) => any> {
+  isLoggedIn: (state: AuthState) => boolean;
+}
+
+interface AuthActions {
+  login: () => void;
+  logout: () => void;
+}
+
+export const useAuthStore = defineStore<'auth', AuthState, AuthGetters, AuthActions>('auth', {
   state: () => ({
     loggedIn: false,
   }),
