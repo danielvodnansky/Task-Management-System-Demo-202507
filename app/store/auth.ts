@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 
 interface AuthState {
   loggedIn: boolean;
 }
 
-interface AuthGetters extends Record<string, (state: AuthState) => any> {
-  isLoggedIn: (state: AuthState) => boolean;
+interface AuthGetters {
+  isLoggedIn: boolean;
 }
 
 interface AuthActions {
@@ -13,22 +14,27 @@ interface AuthActions {
   logout: () => void;
 }
 
-export const useAuthStore = defineStore<'auth', AuthState, AuthGetters, AuthActions>('auth', {
-  state: () => ({
-    loggedIn: false,
-  }),
-  getters: {
-    isLoggedIn: state => state.loggedIn,
-  },
-  actions: {
-    login () {
-      this.loggedIn = true
-      navigateTo('/')
-    },
-    logout () {
-      this.loggedIn = false
-      navigateTo('/login')
-    },
-  },
+export const useAuthStore = defineStore('auth', () => {
+  const loggedIn = ref<AuthState['loggedIn']>(false)
+
+  const isLoggedIn = computed<AuthGetters['isLoggedIn']>(() => loggedIn.value)
+
+  const login: AuthActions['login'] = () => {
+    loggedIn.value = true
+    navigateTo('/')
+  }
+
+  const logout: AuthActions['logout'] = () => {
+    loggedIn.value = false
+    navigateTo('/login')
+  }
+
+  return {
+    loggedIn,
+    isLoggedIn,
+    login,
+    logout,
+  }
+}, {
   persist: true,
 })

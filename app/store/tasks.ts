@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import type { Task } from '~/types/Task'
 import type { TaskFilterStatus, TaskFilterPriority, TaskSortBy } from '~/types/TaskFilterOptions'
 
-// 1. Define the State Interface
 interface TaskState {
   tasks: Task[];
   filterStatus: TaskFilterStatus;
@@ -12,16 +12,14 @@ interface TaskState {
   selectedProjectId: string | undefined;
 }
 
-// 2. Define the Getters Interface
-interface TaskGetters extends Record<string, (state: TaskState) => any> {
-  allTasks: (state: TaskState) => Task[];
-  activeTasks: (state: TaskState) => Task[];
-  completedTasks: (state: TaskState) => Task[];
-  getTasksByProjectId: (state: TaskState) => (projectId: string) => Task[];
-  getFilteredAndSortedTasks: (state: TaskState) => Task[];
+interface TaskGetters {
+  allTasks: Task[];
+  activeTasks: Task[];
+  completedTasks: Task[];
+  getTasksByProjectId: (projectId: string) => Task[];
+  getFilteredAndSortedTasks: Task[];
 }
 
-// 3. Define the Actions Interface
 interface TaskActions {
   addTask: (task: Omit<Task, 'uuid' | 'completed'>) => void;
   editTask: (updatedTask: Task) => void;
@@ -35,127 +33,159 @@ interface TaskActions {
   clearAllFilters: () => void;
 }
 
-export const useTaskStore = defineStore<'tasks', TaskState, TaskGetters, TaskActions>('tasks', {
-  state: () => ({
-    tasks: [
-      {
-        uuid: uuidv4(),
-        title: 'Buy groceries',
-        description: 'Milk, eggs, bread, fruits',
-        dueDate: new Date(Date.now() + 86400000 * 2).toISOString(), // 2 days from now
-        priority: 'high',
-        projectId: '1',
-        completed: false,
-      },
-      {
-        uuid: uuidv4(),
-        title: 'Finish report',
-        description: 'Complete the Q3 financial report',
-        dueDate: new Date(Date.now() + 86400000 * 5).toISOString(), // 5 days from now
-        priority: 'medium',
-        projectId: '1',
-        completed: false,
-      },
-      {
-        uuid: uuidv4(),
-        title: 'Call mom',
-        dueDate: new Date(Date.now() + 86400000).toISOString(), // 1 day from now
-        priority: 'low',
-        projectId: '2',
-        completed: true,
-      },
-      {
-        uuid: uuidv4(),
-        title: 'Learn Nuxt 3',
-        description: 'Read documentation and build a small app',
-        dueDate: new Date(Date.now() + 86400000 * 10).toISOString(), // 10 days from now
-        priority: 'high',
-        projectId: '3',
-        completed: false,
-      },
-    ] as Task[],
-    filterStatus: 'all',
-    filterPriority: 'all',
-    sortBy: 'dueDate',
-    selectedProjectId: undefined,
-  }),
+export const useTaskStore = defineStore('tasks', () => {
+  const tasks = ref<TaskState['tasks']>([
+    {
+      uuid: uuidv4(),
+      title: 'Buy groceries',
+      description: 'Milk, eggs, bread, fruits',
+      dueDate: new Date(Date.now() + 86400000 * 2).toISOString(),
+      priority: 'high',
+      projectId: '1',
+      completed: false,
+    },
+    {
+      uuid: uuidv4(),
+      title: 'Finish report',
+      description: 'Complete the Q3 financial report',
+      dueDate: new Date(Date.now() + 86400000 * 5).toISOString(),
+      priority: 'medium',
+      projectId: '1',
+      completed: false,
+    },
+    {
+      uuid: uuidv4(),
+      title: 'Call mom',
+      dueDate: new Date(Date.now() + 86400000).toISOString(),
+      priority: 'low',
+      projectId: '2',
+      completed: true,
+    },
+    {
+      uuid: uuidv4(),
+      title: 'Learn Nuxt 3',
+      description: 'Read documentation and build a small app',
+      dueDate: new Date(Date.now() + 86400000 * 10).toISOString(),
+      priority: 'high',
+      projectId: '3',
+      completed: false,
+    },
+  ])
+  const filterStatus = ref<TaskState['filterStatus']>('all')
+  const filterPriority = ref<TaskState['filterPriority']>('all')
+  const sortBy = ref<TaskState['sortBy']>('dueDate')
+  const selectedProjectId = ref<TaskState['selectedProjectId']>(undefined)
 
-  getters: {
-    allTasks: state => state.tasks,
-    activeTasks: state => state.tasks.filter((task: Task) => !task.completed),
-    completedTasks: state => state.tasks.filter((task: Task) => task.completed),
-    getTasksByProjectId: state => (projectId: string) =>
-      state.tasks.filter((task: Task) => task.projectId === projectId),
-    getFilteredAndSortedTasks: (state) => {
-      let filteredTasks = state.tasks
-      if (state.selectedProjectId !== undefined) {
-        filteredTasks = filteredTasks.filter((task: Task) => task.projectId === state.selectedProjectId)
-      }
-      if (state.filterStatus === 'active') {
-        filteredTasks = filteredTasks.filter((task: Task) => !task.completed)
-      } else if (state.filterStatus === 'completed') {
-        filteredTasks = filteredTasks.filter((task: Task) => task.completed)
-      }
-      if (state.filterPriority !== 'all') {
-        filteredTasks = filteredTasks.filter((task: Task) => task.priority === state.filterPriority)
-      }
-      filteredTasks.sort((a: Task, b: Task) => {
-        if (state.sortBy === 'dueDate') {
-          return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
-        } else {
-          return a.title.localeCompare(b.title)
-        }
-      })
+  const allTasks = computed<TaskGetters['allTasks']>(() => tasks.value)
+  const activeTasks = computed<TaskGetters['activeTasks']>(() => tasks.value.filter((task: Task) => !task.completed))
+  const completedTasks = computed<TaskGetters['completedTasks']>(() => tasks.value.filter((task: Task) => task.completed))
+  const getTasksByProjectId: TaskGetters['getTasksByProjectId'] = (projectId: string) =>
+    tasks.value.filter((task: Task) => task.projectId === projectId)
 
-      return filteredTasks
-    },
-  },
+  const getFilteredAndSortedTasks = computed<TaskGetters['getFilteredAndSortedTasks']>(() => {
+    let filtered = [...tasks.value]
 
-  actions: {
-    addTask (task: Omit<Task, 'uuid' | 'completed'>) {
-      const newTask: Task = {
-        uuid: uuidv4(),
-        completed: false,
-        ...task,
+    if (selectedProjectId.value !== undefined) {
+      filtered = filtered.filter((task: Task) => task.projectId === selectedProjectId.value)
+    }
+
+    if (filterStatus.value === 'active') {
+      filtered = filtered.filter((task: Task) => !task.completed)
+    } else if (filterStatus.value === 'completed') {
+      filtered = filtered.filter((task: Task) => task.completed)
+    }
+
+    if (filterPriority.value !== 'all') {
+      filtered = filtered.filter((task: Task) => task.priority === filterPriority.value)
+    }
+
+    filtered.sort((a: Task, b: Task) => {
+      if (sortBy.value === 'dueDate') {
+        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+      } else {
+        return a.title.localeCompare(b.title)
       }
-      this.tasks.push(newTask)
-    },
-    editTask (updatedTask: Task) {
-      const index = this.tasks.findIndex((task: Task) => task.uuid === updatedTask.uuid)
-      if (index !== -1) {
-        this.tasks[index] = updatedTask
-      }
-    },
-    deleteTask (uuid: string) {
-      this.tasks = this.tasks.filter((task: Task) => task.uuid !== uuid)
-    },
-    deleteTasksByProjectId (projectId: string) {
-      this.tasks = this.tasks.filter((task: Task) => task.projectId !== projectId)
-    },
-    toggleTaskCompletion (uuid: string) {
-      const task = this.tasks.find((task: Task) => task.uuid === uuid)
-      if (task) {
-        task.completed = !task.completed
-      }
-    },
-    setFilterStatus (status: TaskFilterStatus) {
-      this.filterStatus = status
-    },
-    setFilterPriority (priority: TaskFilterPriority) {
-      this.filterPriority = priority
-    },
-    setSortBy (sortBy: TaskSortBy) {
-      this.sortBy = sortBy
-    },
-    setProjectId (projectId: string | undefined) {
-      this.selectedProjectId = projectId
-    },
-    clearAllFilters () {
-      this.filterStatus = 'all'
-      this.filterPriority = 'all'
-      this.sortBy = 'dueDate'
-      this.selectedProjectId = undefined
-    },
-  },
+    })
+
+    return filtered
+  })
+
+  const addTask: TaskActions['addTask'] = (task: Omit<Task, 'uuid' | 'completed'>) => {
+    const newTask: Task = {
+      uuid: uuidv4(),
+      completed: false,
+      ...task,
+    }
+    tasks.value.push(newTask)
+  }
+
+  const editTask: TaskActions['editTask'] = (updatedTask: Task) => {
+    const index = tasks.value.findIndex((t: Task) => t.uuid === updatedTask.uuid)
+    if (index !== -1) {
+      tasks.value[index] = updatedTask
+    }
+  }
+
+  const deleteTask: TaskActions['deleteTask'] = (uuid: string) => {
+    tasks.value = tasks.value.filter((task: Task) => task.uuid !== uuid)
+  }
+
+  const deleteTasksByProjectId: TaskActions['deleteTasksByProjectId'] = (projectId: string) => {
+    tasks.value = tasks.value.filter((task: Task) => task.projectId !== projectId)
+  }
+
+  const toggleTaskCompletion: TaskActions['toggleTaskCompletion'] = (uuid: string) => {
+    const task = tasks.value.find((task: Task) => task.uuid === uuid)
+    if (task) {
+      task.completed = !task.completed
+    }
+  }
+
+  const setFilterStatus: TaskActions['setFilterStatus'] = (status: TaskFilterStatus) => {
+    filterStatus.value = status
+  }
+
+  const setFilterPriority: TaskActions['setFilterPriority'] = (priority: TaskFilterPriority) => {
+    filterPriority.value = priority
+  }
+
+  const setSortBy: TaskActions['setSortBy'] = (newSortBy: TaskSortBy) => {
+    sortBy.value = newSortBy
+  }
+
+  const setProjectId: TaskActions['setProjectId'] = (projectId: string | undefined) => {
+    selectedProjectId.value = projectId
+  }
+
+  const clearAllFilters: TaskActions['clearAllFilters'] = () => {
+    filterStatus.value = 'all'
+    filterPriority.value = 'all'
+    sortBy.value = 'dueDate'
+    selectedProjectId.value = undefined
+  }
+
+  return {
+    tasks,
+    filterStatus,
+    filterPriority,
+    sortBy,
+    selectedProjectId,
+    allTasks,
+    activeTasks,
+    completedTasks,
+    getTasksByProjectId,
+    getFilteredAndSortedTasks,
+    addTask,
+    editTask,
+    deleteTask,
+    deleteTasksByProjectId,
+    toggleTaskCompletion,
+    setFilterStatus,
+    setFilterPriority,
+    setSortBy,
+    setProjectId,
+    clearAllFilters,
+  }
+}, {
   persist: true,
 })
